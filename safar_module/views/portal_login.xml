@@ -1,0 +1,30 @@
+<odoo>
+
+    <!--Pour renommer le menu "Se connecter" en "Espace client"-->
+<!--     <template id="safar_portal_espace_client" name="Safar Portal Espace Client" inherit_id="portal.portal_show_sign_in" priority="16">
+        <xpath expr="//li[2]/a[1]/b[1]" position="replace"/>
+        <xpath expr="//li[2]/a[1]" position="after">
+            <b>Espace Client</b>
+        </xpath>
+    </template> -->
+
+    <!--Modification de la page de connexion-->
+    <template id="safar_portal_login" name="Safar Portal Login" inherit_id="web.login" priority="20">
+
+        <!--Avertissement changment de procédure de connexion-->
+        <xpath expr="//form[1]" position="before">
+          <div style="text-align: center">
+            <br/><br/>
+            <b>Suite à la refonte de notre site internet, vos identifiants pour l'accès à votre Compte Pro ne sont plus valides. </b><br/>
+            <b>Vous devez désormais utiliser votre adresse email pour vous connecter. </b><br/>
+            <b>Votre mot de passe devra également être réinitialisé en cliquant sur le lien ci-dessous. </b><br/>
+            <b>En cas de difficultés, vous pouvez nous envoyer un message via le <u><a href="/contactus">formulaire de contact</a></u>.</b>
+          </div>
+        </xpath>
+
+
+        <!--Pour enlever le bouton de connexion en tant que superutilisateur-->
+        <xpath expr="//button[@name='redirect']" position="replace"/>
+
+    </template>
+</odoo>

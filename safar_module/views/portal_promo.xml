@@ -1,0 +1,13 @@
+<odoo>
+    <!-- En bas du site apparaît un message de promotion pour Odoo que l'on souhaite faire disparaître-->
+<!--    <template id="safar_portal_promo" name="Safar Website Layout Promo" inherit_id="web.frontend_layout" priority="16">-->
+<!--        &lt;!&ndash;Suppression du message de promotion à Odoo&ndash;&gt;-->
+<!--        <xpath expr="//t[@t-call='web.brand_promotion']/.." position="replace"/>-->
+<!--    </template>-->
+
+    <template id="safar_portal_promo" name="Safar Website Layout Promo" inherit_id="website.layout" priority="16">
+        <!--Suppression du message de promotion à Odoo-->
+        <xpath expr="//t[@t-call='web.brand_promotion']/.." position="replace"/>
+    </template>
+
+</odoo>

@@ -1,0 +1,123 @@
+<odoo>
+    <template id="s_footer_custom" name="Safar Footer Custom" inherit_id="website.layout" priority="16">
+        <xpath expr="//div[@id='footer']" position="replace">
+            <div id="footer" class="oe_structure oe_structure_solo" t-ignore="true" t-if="not no_footer">
+              <section class="s_text_block pt16 pb8 bg-300" data-name="Text block" style="">
+                <div class="container">
+                  <div class="row">
+                    <div class="col-lg-4" id="connect">
+                      <h5>
+                        <img class="img-fluid o_we_custom_image" src="/web/image/37013/logo-groupe-safar-noir.jpg" data-original-title="" title="" aria-describedby="tooltip238132"/>
+                        <br/>
+                      </h5>
+                      <h5>
+                        <font style="font-size: 14px;">
+                          <b>GROUPE SAFAR</b>
+                        </font>
+                      </h5>
+
+                      <ul class="list-unstyled">
+                        <li><a href="/contactus">Contactez-nous</a></li>
+                        <li>
+                          <i class="fa fa-phone"/>
+                          <span class="o_force_ltr" t-field="res_company.phone"/>
+                        </li>
+                        <li>
+                          <i class="fa fa-envelope"/>
+                          <span t-field="res_company.email"/>
+                        </li>
+                      </ul>
+
+                      <p>
+                          <a t-if="website.social_facebook" t-att-href="website.social_facebook" class="btn btn-sm btn-link"><i class="fa fa-2x fa-facebook-square"/></a>
+                          <a t-if="website.social_twitter" t-att-href="website.social_twitter" class="btn btn-sm btn-link"><i class="fa fa-2x fa-twitter"/></a>
+                          <a t-if="website.social_linkedin" t-att-href="website.social_linkedin" class="btn btn-sm btn-link"><i class="fa fa-2x fa-linkedin"/></a>
+                          <a t-if="website.social_youtube" t-att-href="website.social_youtube" class="btn btn-sm btn-link"><i class="fa fa-2x fa-youtube-play"/></a>
+                          <a t-if="website.social_github" t-att-href="website.social_github" class="btn btn-sm btn-link"><i class="fa fa-2x fa-github"/></a>
+                          <a t-if="website.social_instagram" t-att-href="website.social_instagram" class="btn btn-sm btn-link"><i class="fa fa-2x fa-instagram"/></a>
+                      </p>
+                    </div>
+
+                    <div class="col-lg-4">
+                      <h5 style="text-align: left;">
+                        <font style="font-size: 18px;">
+                          <b>LE GROUPE</b>
+                        </font>
+                      </h5>
+
+                      <ul class="list-unstyled">
+                          <li><a t-if="website.s_page_histoire"  t-att-href="website.s_page_histoire" aria-describedby="tooltip722706">Notre histoire</a></li>
+                          <li><a t-if="website.s_page_valeur"  t-att-href="website.s_page_valeur" aria-describedby="tooltip722706">Nos valeurs</a></li>
+                          <li><a t-if="website.s_page_certification"  t-att-href="website.s_page_certification" aria-describedby="tooltip722706">Certifications et RSE</a></li>
+                          <li><a t-if="website.s_page_job"  t-att-href="website.s_page_job" aria-describedby="tooltip722706">Recrutement</a></li>
+                      </ul>
+
+                      <p style="text-align: left;">
+                        <font style="font-size: 18px;">
+                          <b>INFORMATIONS LÉGALES</b>
+                        </font>
+                      </p>
+
+                      <p style="text-align: left;">
+<!--                        <a href="/mentions-legales" data-original-title="" title="" aria-describedby="tooltip564822">Mentions légales</a>-->
+                          <a t-if="website.s_page_mention"  t-att-href="website.s_page_mention" aria-describedby="tooltip722706">Mentions légales</a>
+
+                        <font style="font-size: 18px;">
+                          <br/>
+                        </font>
+<!--                        <a href="/politique-de-confidentialite" data-original-title="" title="">Politique de confidentialité</a>-->
+                          <a t-if="website.s_page_politique"  t-att-href="website.s_page_politique" aria-describedby="tooltip722706">Politique de confidentialité</a>
+                        <font style="font-size: 18px;">
+                          <br/>
+                        </font>
+                      </p>
+
+                      <p style="text-align: left;">
+                        <font style="font-size: 18px;">
+                          <b>
+                              <br/>
+                          </b>
+                        </font>
+                      </p>
+                    </div>
+
+                    <div class="col-lg-4">
+                      <h5>
+                        <div style="text-align: left;">
+                          <span style="font-size: 18px;">RESTONS EN CONTACT</span>
+                        </div>
+                      </h5>
+
+                      <p> Abonnez-vous à notre newsletter</p>
+                      <div class="input-group js_subscribe" data-list-id="0" data-name="Newsletter">
+                        <input type="email" name="email" class="js_subscribe_email form-control" placeholder="Votre adresse email..."/>
+                        <span class="input-group-append">
+                          <a role="button" href="#" class="btn btn-primary js_subscribe_btn o_default_snippet_text">S'inscrire</a>
+                          <a role="button" href="#" class="btn btn-success js_subscribed_btn d-none o_default_snippet_text" disabled="disabled">Merci</a>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+
+
+              <script>
+                window.axeptioSettings = {
+                  clientId: "60e5c834377f8c085a3464ba",
+                };
+
+                (function(d, s) {
+                  var t = d.getElementsByTagName(s)[0], e = d.createElement(s);
+                  e.async = true; e.src = "//static.axept.io/sdk.js";
+                  t.parentNode.insertBefore(e, t);
+               })(document, "script");
+              </script>
+
+            </div>
+          </xpath>
+    </template>
+</odoo>
+
+

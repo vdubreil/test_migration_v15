@@ -1,0 +1,21 @@
+<odoo>
+    <template id="s_portal_livraison" name="Safar Portal Livraison" inherit_id="portal.portal_my_home" priority="26">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+            <t t-call="portal.portal_docs_entry">
+                <t t-set="title">Bons de Livraison</t>
+                <t t-set="url" t-value="'/my/bls'"/>
+                <t t-set="count" t-value="picking_count"/>
+            </t>
+        </xpath>
+    </template>
+
+    <template id="s_portal_document" name="Safar Portal Document" inherit_id="portal.portal_my_home" priority="35">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+            <t t-call="portal.portal_docs_entry">
+                <t t-set="title">Documents</t>
+                <t t-set="url" t-value="'/my/docs'"/>
+<!--                 <t t-set="count" t-value="document_count"/> -->
+            </t>
+        </xpath>
+    </template>
+</odoo>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="s_portal_breadcrumbs" name="Safar Portal Breadcrumbs" inherit_id="portal.portal_breadcrumbs" priority="16">
+        <xpath expr="/t[1]/ol[1]/li[2]" position="after">
+            <li t-if="page_name == 'my_bls'" class="breadcrumb-item">Bons de livraison</li>
+            <li t-if="page_name == 'my_docs'" class="breadcrumb-item">
+                <t t-foreach="arbo_list_folder" t-as="folder">
+                    <a t-att-href="'/my/docs/folder/%s' % folder_value.split('|').pop(0)">
+                        <!--6 = id du workspace portail, mais on change son nom pour que ce soit plus parlant-->
+                        <t t-if="folder_value.split('|').pop(0)=='6'">Documents</t>
+                        <t t-else=""> / <span t-esc="folder_value.split('|').pop(1)"/></t>
+                    </a>
+                </t>
+            </li>
+
+        </xpath>
+    </template>
+</odoo>

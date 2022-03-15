@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--On appelle 2 tâches planifiées pour venir fermer des tâches opérateurs que les piqueuses auraient oublié de clore-->
+    <!--Un appel le matin à 13h-->
+    <record id="ir_cron_safar_fermer_tache_operateur_AM" model="ir.cron">
+        <field name="name">Safar Customer Close Operator Task AM</field>
+        <field name="user_id" ref="base.user_root" />
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="numbercall">-1</field>
+        <field name="nextcall" eval="(datetime.now()+ timedelta(days=1)).strftime('%Y-%m-%d 12:00:00')"/>
+
+        <field name="doall" eval="False"/>
+        <field name="model_id" ref="model_mrp_workcenter_productivity"/>
+        <field name="code">model.close_operator_task()</field>
+        <field name="state">code</field>
+        <field name="active" eval="True"/>
+    </record>
+    <!--Un appel le soir à 20h30-->
+    <record id="ir_cron_safar_fermer_tache_operateur_PM" model="ir.cron">
+        <field name="name">Safar Customer Close Operator Task PM</field>
+        <field name="user_id" ref="base.user_root" />
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="numbercall">-1</field>
+        <field name="nextcall" eval="(datetime.now()+ timedelta(days=1)).strftime('%Y-%m-%d 19:30:00')"/>
+
+        <field name="doall" eval="False"/>
+        <field name="model_id" ref="model_mrp_workcenter_productivity"/>
+        <field name="code">model.close_operator_task()</field>
+        <field name="state">code</field>
+        <field name="active" eval="True"/>
+    </record>
+</odoo>

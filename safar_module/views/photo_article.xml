@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record model="ir.ui.view" id="s_photo_article_form_view">
+        <field name="name">Safar.s_photo_article.form</field>
+        <field name="model">s_photo_article</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet string="s_photo_article">
+                  <div class="oe_title">
+                    <h1>
+                      <field name="s_name" placeholder="Libellé de l'image" required="1"/>
+                    </h1>
+                  </div>
+                  <group name="studio_group_4559e3">
+                    <group name="studio_group_4559e3_left">
+                        <field name="s_article" string="Article"/>
+                        <field invisible="1" name="s_photo_filename"/>
+                        <field filename="s_photo_filename" name="s_photo" string="Photo" options="{&quot;size&quot;:[0,270]}" widget="image"/>
+                    </group>
+                    <group name="studio_group_4559e3_right"/>
+                  </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="s_photo_article_tree_view">
+        <field name="name">Safar.s_photo_article.tree</field>
+        <field name="model">s_photo_article</field>
+        <field name="arch" type="xml">
+            <tree string="s_photo_article">
+                <field name="s_article"/>
+                <field name="s_name" modifiers="{}"/>
+                <field name="s_photo" options="{&quot;size&quot;:[0,180]}" widget="image"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="photo_article_action">
+        <field name="name">PhotosArticle</field>
+        <field name="res_model">s_photo_article</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="photo_article_action_menu" name="Photos Article" parent="safar_article_configuration_menu" action="photo_article_action" sequence="90"/>
+</odoo>

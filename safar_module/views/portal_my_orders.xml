@@ -1,0 +1,16 @@
+<odoo>
+    <template id="s_portal_so_recherche" name="Safar Portal SO Recherche" inherit_id="sale.portal_my_orders" priority="16">
+        <xpath expr="/t[1]/t[1]/t[2]" position="after">
+            <form class="col-sm-4 col-md-4 col-xs-12 text-center" action="/my/orders/search" method="post" t-att-class="search_class" style="margin-bottom:16px;display;display: inline-block;">
+                <input type="hidden" name="csrf_token" class="mb32" t-att-value="request.csrf_token()" />
+                <div class="input-group">
+                  <input name="order_search" class='form-control' type="text" placeholder="Recherche..."  />
+
+                  <div class="input-group-btn">
+                      <button class="fa fa-search btn btn-danger">Chercher</button>
+                  </div>
+                </div>
+            </form>
+        </xpath>
+    </template>
+</odoo>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="s_portal_my_docs" name="Mes Documents">
+        <t name="Mes Documents" t-name="safar_module.s_portal_my_docs">
+            <t t-call="portal.portal_layout">
+                <t t-set="breadcrumbs_searchbar" t-value="True"/>
+
+                <t t-call="portal.portal_searchbar">
+                    <t t-set="title">Documents</t>
+                </t>
+                <t t-if="not mydocs and not myreps">
+                    <p>Il n'y a aucun document sur votre compte</p>
+                </t>
+
+		<div class="alert alert-info alert-dismissable d-print-none" role="status">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">&amp;times;</button>
+                    <b>S'il vous manque un document, N'hésitez pas à nous le demander via le <u><a href="/contactus">formulaire de contact</a></u>.</b>
+                </div>
+                <br/>
+
+                <t t-if="mydocs or myreps" t-call="portal.portal_table">
+                    <!--En-têtes de colonne-->
+                    <thead>
+                        <tr class="active">
+                            <th><span class="d-none d-md-inline">Documents</span></th>
+                            <th class="text-right">Date Création</th>
+                        </tr>
+                    </thead>
+                    <!--Liste des répertoires-->
+                    <t t-foreach="myreps" t-as="myrep">
+                        <tr>
+                            <td>
+                                <a t-att-href="'/my/docs/folder/%s' % myrep.id">
+                                    <span class="fa fa-folder"/> <span t-esc="myrep.name"/>
+                                </a>
+                            </td>
+                            <td/>
+                        </tr>
+                    </t>
+                    <!--Liste des documents-->
+                    <t t-foreach="mydocs" t-as="mydoc">
+                        <tr>
+                            <td>
+                                <a t-if="mydoc.url" t-att-href="mydoc.url" target="_blank"><span t-esc="mydoc.name"/></a>
+                                <a t-else="" t-attf-href="/web/content/#{mydoc.attachment_id.id}?download=true&amp;access_token=#{mydoc.attachment_id.access_token}">
+                                    <span t-esc="mydoc.name"/>
+                                </a>
+                            </td>
+                            <td class="text-right">
+                                <span t-field="mydoc.create_date" t-options="{'widget': 'date'}"/>&amp;nbsp;
+                            </td>
+                        </tr>
+                    </t>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

@@ -1,0 +1,71 @@
+<odoo>
+    <template id="s_portal_duplicate_so" name="Safar Portal Duplicate SO" inherit_id="sale.sale_order_portal_template" priority="16">
+        <!--Dans le cas d'une commande, on ajoute un bouton pour recommander la même cde-->
+        <xpath expr="//div[1]/t[1]/t[3]/ul[1]/li[1]/div[1]" position="after">
+            <a t-if="sale_order.has_to_be_signed(True)==false" role="button" class="btn btn-secondary btn-block mb8" data-toggle="modal" data-target="#modalduplicate" href="#">
+                <i class="fa fa-files-o"/><t> Réitérer la commande</t>
+            </a>
+        </xpath>
+        <!--On enlève l'indication du vendeur sur l'encart de gauche-->
+        <xpath expr="//div[1]/t[1]/t[3]/ul[1]/li[3]/div[2]/div[2]" position="attributes">
+            <attribute name="class">text-center</attribute> <!--pour aligner le lien d'envoi d'un message sur les menus du dessus-->
+        </xpath>
+        <xpath expr="//div[1]/t[1]/t[3]/ul[1]/li[3]/div[2]/div[2]/span[1]" position="replace"/>
+        <xpath expr="//div[1]/t[1]/t[3]/ul[1]/li[3]/div[2]/div[1]" position="replace"/>
+        <xpath expr="//div[1]/t[1]/t[3]/ul[1]/li[3]/div[1]" position="replace"/>
+
+        <xpath expr="//div[@id='modaldecline']" position="after">
+            <div role="dialog" class="modal fade" id="modalduplicate">
+                <div class="modal-dialog">
+                    <form id="duplicate" method="POST" t-attf-action="/my/orders/#{sale_order.id}/duplicate?access_token=#{sale_order.access_token}" class="modal-content">
+                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                        <header class="modal-header">
+                            <h4 class="modal-title">Nouvelle commande...</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">&amp;times;</button>
+                        </header>
+                        <main class="modal-body">
+                            <textarea rows="1" type="text" name="ref_order_client" placeholder="Votre référence" class="form-control"/>
+                            <br/><hr/>
+                            <p>Vous souhaitez repasser exactement la commande N° <span t-field="sale_order.name"/></p>
+                            <button type="submit" t-att-id="sale_order.id" class="btn btn-danger"><i class="fa fa-times"></i> Passer la même commande</button>
+                            <br/><hr/>
+                            <p>Vous souhaitez apporter quelques modifications à la commande N° <span t-field="sale_order.name"/></p>
+                            <textarea rows="4" name="duplicate_message" placeholder="Dans ce cas, merci d'indiquer ici les modifications à apporter à la commande d'origine..." class="form-control"/><br/>
+                            <button type="submit" t-att-id="sale_order.id" class="btn btn-danger"><i class="fa fa-times"></i> Demander un devis</button>
+                        </main>
+                        <footer class="modal-footer">
+                            <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+                        </footer>
+                    </form>
+                </div>
+            </div>
+
+            <!-- status messages -->
+            <div t-if="message == 'duplicate_ok'" class="alert alert-success alert-dismissable d-print-none" role="status">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">&amp;times;</button>
+                <strong>Merci!</strong><br/>
+                <t>Votre commande a bien été enregistrée.</t>
+                <t>Veuillez en trouver le détail ci-dessous pour validation.</t>
+            </div>
+            <div t-if="message == 'duplicate_ko'" class="alert alert-warning alert-dismissable d-print-none" role="status">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">&amp;times;</button>
+                <strong>Désolé!</strong><br/>
+                <t>Votre commande n'a pas pu être enregistrée.</t>
+                <t>Refaites un nouvel essai ou contactez le service client.</t>
+            </div>
+            <div t-if="message == 'quotation_ok'" class="alert alert-success alert-dismissable d-print-none" role="status">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">&amp;times;</button>
+                <strong>Merci!</strong><br/>
+                <t>Votre demande de devis a bien été transmise.</t>
+                <t>Vous recevrez bientôt une proposition par mail.</t>
+            </div>
+            <div t-if="message == 'quotation_ko'" class="alert alert-warning alert-dismissable d-print-none" role="status">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">&amp;times;</button>
+                <strong>Désolé!</strong><br/>
+                <t>Votre demande de devis n'a pas pu être transmise.</t>
+                <t>Refaites un nouvel essai ou contactez le service client.</t>
+            </div>
+
+        </xpath>
+    </template>
+</odoo>

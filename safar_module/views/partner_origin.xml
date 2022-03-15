@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record model="ir.ui.view" id="s_partner_origin_form_view">
+        <field name="name">Safar.s_partner_origin_form</field>
+        <field name="model">s_partner_origin</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet string="s_partner_origin">
+                  <div class="oe_title">
+                    <h1>
+                      <field name="s_name" placeholder="Origine" required="1"/>
+                    </h1>
+                  </div>
+<!--                   <group name="studio_group_4559e3">
+                    <group name="studio_group_4559e3_left"/>
+                    <group name="studio_group_4559e3_right"/>
+                  </group> -->
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="s_partner_origin_tree_view">
+        <field name="name">Safar.s_partner_origin_tree</field>
+        <field name="model">s_partner_origin</field>
+        <field name="arch" type="xml">
+            <tree string="s_partner_origin">
+                <field name="s_name" modifiers="{}" string="Origines"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="safar_partner_origin_action">
+        <field name="name">Origine</field>
+        <field name="res_model">s_partner_origin</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="safar_partner_origin_action_menu" name="Origines" parent="contacts.res_partner_menu_config" action="safar_partner_origin_action" sequence="40"/>
+</odoo>

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <!--Form-->
+    <record model="ir.ui.view" id="s_view_message_form">
+        <field name="name">Safar.s_view_message_form</field>
+        <field name="model">mail.message</field>
+        <field name="inherit_id" ref="mail.view_message_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='moderator_id']" position="after">
+                <field name="mail_activity_type_id" invisible="1"/>
+                <button type="object" string="Voir Document/Contact" name= "open_popup_form" class="btn-primary"/>
+            </xpath>
+            <xpath expr="//field[@name='moderator_id']" position="attributes">
+                <attribute name="attrs">{'invisible': ['|',('mail_activity_type_id','=',2), ('mail_activity_type_id','=',3)]}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='moderation_status']" position="attributes">
+                <attribute name="attrs">{'invisible': ['|',('mail_activity_type_id','=',2), ('mail_activity_type_id','=',3)]}</attribute>
+            </xpath>
+            <xpath expr="//form/sheet/notebook/page[2]" position="attributes">
+                <attribute name="attrs">{'invisible': ['|',('mail_activity_type_id','=',2), ('mail_activity_type_id','=',3)]}</attribute>
+            </xpath>
+            <xpath expr="//form/sheet/notebook/page[3]" position="attributes">
+                <attribute name="attrs">{'invisible': ['|',('mail_activity_type_id','=',2), ('mail_activity_type_id','=',3)]}</attribute>
+            </xpath>
+            <xpath expr="//form/sheet/notebook/page[4]" position="attributes">
+                <attribute name="attrs">{'invisible': ['|',('mail_activity_type_id','=',2), ('mail_activity_type_id','=',3)]}</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <!--Tree-->
+    <record model="ir.ui.view" id="s_mail_message_tree_complet">
+        <field name="name">Safar.s_mail_message_tree_complet</field>
+        <field name="model">mail.message</field>
+        <field name="arch" type="xml">
+            <tree create="false" edit="true">
+                <field name="date"/>
+                <field name="mail_activity_type_id" string="Type"/>
+                <field name="author_id"/>
+                <field name="record_name" string="Contact/Document"/>
+                <field name="subject"/>
+            </tree>
+        </field>
+    </record>
+
+    <!--Kanban-->
+    <record model="ir.ui.view" id="s_mail_message_pivot">
+        <field name="name">Safar.s_mail_message_pivot</field>
+        <field name="model">mail.message</field>
+        <field name="arch" type="xml">
+            <pivot string="Activités">
+                <field name="author_id" type="row"/>
+                <field name="date" type="col"/>
+            </pivot>
+        </field>
+    </record>
+
+    <!--Recherche-->
+    <record model="ir.ui.view" id="s_mail_message_search_view">
+        <field name="name">Safar.mail_message_search_view</field>
+        <field name="model">mail.message</field>
+        <field name="arch" type="xml">
+            <search string="Recherche">
+                <field string="Type d'activité" name="mail_activity_type_id"/>
+                <field string="Assigné à" name="author_id"/>
+
+                <filter string="Mes activités" name="my_activities" domain="[('create_uid', '=', uid)]"/>
+                <separator/>
+                <filter string="Date" name="filter_date" date="date"/>
+                <separator/>
+                <filter string="Appel" name="filter_Call" domain="[('mail_activity_type_id', '=', 2)]"/>
+                <filter string="Rendez-vous" name="filter_Rdv" domain="[('mail_activity_type_id', '=', 3)]"/>
+                <filter string="Appel / Rendez-vous" name="filter_CallRdv" domain="['|', ('mail_activity_type_id', '=', 2), ('mail_activity_type_id', '=', 3)]"/>
+
+                <group expand="0" string="Group by...">
+                    <filter string="Date" name="date" context="{'group_by': 'date'}"/>
+                    <filter string="Assigné à" name="author_id" context="{'group_by': 'author_id'}"/>
+                    <filter string="Type d'activité" name="mail_activity_type_id" context="{'group_by': 'mail_activity_type_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!--Action Window-->
+    <record model="ir.actions.act_window" id="safar_mail_message_action">
+        <field name="name">Activités</field>
+        <field name="res_model">mail.message</field>
+        <field name="view_mode">tree,form,pivot</field>
+        <field name="search_view_id" ref="safar_module.s_mail_message_search_view"/>
+        <field name="context">{"search_default_my_activities":1, "search_default_filter_CallRdv":1}</field>
+    </record>
+    <!--Menu-->
+    <menuitem id="safar_mail_message_action_menu1" name="Historique Activités" parent="sale.menu_sale_report" action="safar_mail_message_action" sequence="2"/>
+
+    <!--Menu-->
+    <menuitem id="safar_mail_message_action_menu2" name="Historique Activités" parent="crm.crm_menu_report" action="safar_mail_message_action" sequence="4"/>
+</odoo>

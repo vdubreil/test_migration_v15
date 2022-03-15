@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Inherit quotation report (from module sale) -->
+    <!--<template id="Safar_report_mrporder" inherit_id="mrp.report_mrporder">
+
+        <xpath expr="/t[1]/t[1]/t[1]/t[1]/div[1]/div[3]/div[2]" position="after">
+            <t t-set="address">
+                <div t-field="o.partner_id" t-options="{'widget': 'contact', 'fields': ['address','name'], 'no_marker': True}"/>
+            </t>
+            <t t-if="address">
+                <div class="address row">
+                    <div name="address" t-att-class="colclass">
+                        <t t-raw="address"/>
+                    </div>
+                </div>
+            </t>
+        </xpath>
+
+    </template>-->
+</odoo>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="s_portal_my_bls" name="Mes Bons de livraison">
+        <t name="Mes Bons de livraison" t-name="safar_module.s_portal_my_bls">
+            <t t-call="portal.portal_layout">
+                <t t-set="breadcrumbs_searchbar" t-value="True"/>
+
+                <t t-call="portal.portal_searchbar">
+                    <t t-set="title">Bons de livraison</t>
+                </t>
+                <t t-if="not mybls">
+                    <p>Il n'y a aucun bon de livraison sur votre compte</p>
+                </t>
+                <t t-if="mybls" t-call="portal.portal_table">
+                    <!--En-têtes de colonne-->
+                    <thead>
+                        <tr class="active">
+                            <th><span class="d-none d-md-inline">Référence</span></th>
+                            <th>Date</th>
+                            <th><span class="d-none d-md-inline">Etat</span></th>
+                            <th><span class="d-none d-md-inline">Suivi</span></th>
+                        </tr>
+                    </thead>
+
+                    <t t-foreach="mybls" t-as="mybl">
+                        <tr>
+                            <td><a t-att-href="'/my/picking/pdf/%s?%s' % (mybl.id, keep_query())" target="_blank"><span t-esc="mybl.name"/></a></td>
+                            <td><span t-field="mybl.date_done" t-options="{'widget': 'date'}"/></td>
+                            <td>
+                                <span t-if="mybl.state == 'done'" class="small badge badge-success orders_label_text_align"><i class="fa fa-fw fa-truck"/> <b>Shipped</b></span>
+                                <span t-if="mybl.state in ['assigned']" class="small badge badge-info orders_label_text_align"><i class="fa fa-fw fa-clock-o"/> <b>Preparation</b></span>
+                            </td>
+                            <td>
+                                <t t-if="mybl.carrier_tracking_url">
+                                    <a t-att-href="mybl.carrier_tracking_url" target="_blank"><span t-field="mybl.carrier_tracking_ref"/></a>
+                                </t>
+                                <t t-else="">
+                                    <span t-field="mybl.carrier_id.name"/> <span t-field="mybl.carrier_tracking_ref"/>
+                                </t>
+                            </td>
+                        </tr>
+                    </t>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>
