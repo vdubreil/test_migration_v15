@@ -16,7 +16,6 @@
     # Check https://github.com/odoo/odoo/blob/13.0/odoo/addons/base/data/ir_module_category_data.xml
     # for the full list
     'category': 'Uncategorized',
-    'license': 'OPL-1',
     'version': '0.4',
 
     # any module necessary for this one to work correctly
@@ -68,12 +67,14 @@
         'views/note_template.xml',
         'views/partner.xml',
         'views/partner_origin.xml',
+        'views/portal.xml',
         'views/portal_breadcrumbs.xml',
         'views/portal_document.xml',
         'views/portal_duplicate_so.xml',
         'views/portal_my_bls.xml',
         'views/portal_my_docs.xml',
         'views/portal_my_orders.xml',
+        'views/portal_my_prices.xml',
         'views/portal_login.xml',
         'views/portal_footer.xml',
         'views/portal_promo.xml',

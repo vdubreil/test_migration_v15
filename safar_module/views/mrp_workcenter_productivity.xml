@@ -33,7 +33,6 @@
                 <field name="s_of_cd"/>
                 <field name="s_operation"/>
                 <field name="s_operateur"/>
-<!--                <field name="s_gamme"/>-->
                 <field name="s_product_id"/>
                 <field name="s_qte_realisee" sum="Total Qté Réalisées"/>
                 <field name="s_uo_qte" sum="Total UOxQté"/>
@@ -51,7 +50,6 @@
         <field name="arch" type="xml">
             <pivot string="Tâches opérateurs">
                 <field name="s_operateur" type="row"/>
-<!--                <field name="s_gamme" type="row"/>-->
                 <field name="date_start" type="col"/>
                 <field name="s_qte_realisee" type="measure"/>
                 <field name="s_uo_qte" type="measure"/>
@@ -68,7 +66,6 @@
         <field name="arch" type="xml">
             <xpath expr="//field[@name='loss_id']" position="after">
                 <field name="s_operateur" string="Opérateurs"/>
-<!--                <field name="s_gamme" string="Gammes"/>-->
                 <field name="s_of_cd" string="OF"/>
                 <field name="s_operation" string="Opérations"/>
                 <field name="s_product_id" string="Articles"/>

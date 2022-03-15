@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="s_portal_my_prices" name="Mes Tarifs">
+        <t name="Mes Tarifs" t-name="safar_module.s_portal_my_prices">
+            <t t-call="portal.portal_layout">
+                <t t-set="breadcrumbs_searchbar" t-value="True"/>
+
+                <t t-call="portal.portal_searchbar">
+                    <t t-set="title">Tarifs</t>
+                </t>
+                <t t-if="not myprices">
+                    <p>Il n'y a aucun tarif sur votre compte</p>
+                </t>
+
+                <div t-if="count_price == 0" class="alert alert-info alert-dismissable d-print-none" role="status">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">&amp;times;</button>
+                    <b>Si vous avez des difficultés à trouver votre tarif, n'hésitez pas à nous contacter via le <u><a href="/contactus">formulaire de contact</a></u>.</b>
+                </div>
+
+                <form class="col-sm-4 col-md-4 col-xs-12 text-center" action="/my/prices/search" method="post" t-att-class="search_class" style="margin-bottom:16px;display;display: inline-block;">
+                    <input type="hidden" name="csrf_token" class="mb32" t-att-value="request.csrf_token()" />
+                    <div class="input-group">
+                      <input name="price_search" class='form-control' type="text" placeholder="Recherche Référence, Description, Modèle..." style="width: 400px" />
+
+                      <div class="input-group-btn">
+                          <button class="fa fa-search btn btn-danger">Chercher</button>
+                      </div>
+                    </div>
+                </form>
+
+                <t t-if="myprices" t-call="portal.portal_table">
+                    <!--En-têtes de colonne-->
+                    <thead>
+                        <tr class="active">
+                            <th><span class="d-none d-md-inline">Référence</span></th>
+                            <th><span class="d-none d-md-inline">Description</span></th>
+                            <th style="text-align: right"><span class="d-none d-md-inline">Prix</span></th>
+                        </tr>
+                    </thead>
+
+                    <t t-foreach="myprices" t-as="myprice">
+                        <tr>
+                            <td><span t-field="myprice.s_ref_prdt_client"/></td>
+                            <td t-if="myprice.s_lib_prdt_client"><span t-field="myprice.s_lib_prdt_client"/></td>
+                            <td t-if="not myprice.s_lib_prdt_client"><span t-field="myprice.product_tmpl_id.name"/></td>
+                            <td style="text-align: right"><span t-field="myprice.fixed_price"/></td>
+                        </tr>
+                    </t>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

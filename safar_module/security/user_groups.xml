@@ -18,11 +18,23 @@
       <field name="category_id" ref="base.module_category_manufacturing"/>
     </record>
 
-    <!--Groupe pour gérer les utilisateurs du groupe ADV-->
-    <record id="grp_adv" model="res.groups">
-      <field name="name">ADV</field>
-      <field name="category_id" ref="base.module_category_base"/>
-    </record>
+      <!--    <record model="ir.module.category" id="module_management">-->
+<!--      <field name="name">Auto backup access</field>-->
+<!--      <field name="description">User access level for this module</field>-->
+<!--      <field name="sequence">3</field>-->
+<!--    </record>-->
+
+<!--    &lt;!&ndash; Création de la catégorie Base   &ndash;&gt;-->
+<!--    <record model="ir.module.category" id="base">-->
+<!--        <field name="name">Base</field>-->
+<!--        <field name="sequence">0</field>-->
+<!--    </record>-->
+
+<!--    &lt;!&ndash;Groupe pour gérer les utilisateurs du groupe ADV&ndash;&gt;-->
+<!--    <record id="grp_adv" model="res.groups">-->
+<!--      <field name="name">ADV</field>-->
+<!--      <field name="category_id" ref="base.module_category_base"/>-->
+<!--    </record>-->
 
   </data>
 </odoo>

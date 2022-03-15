@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from odoo import fields, models, api
-# from odoo.tools import timedelta
+#from odoo.tools import timedelta
 
 
 class LigneCommande(models.Model):
@@ -268,6 +268,11 @@ class LigneCommande(models.Model):
             's_init_client': self.order_partner_id.id,
             's_bl_name': self.order_id.name,
         }
+        # Si il y a une configuration, on ajoute la 1ère ligne de la config pour que le libellé soit plus clair
+        if self.s_configuration:
+            res['name'] = self.name + '\n' + self.s_configuration.split('\n')[0]
+
+
         if self.display_type:
             res['account_id'] = False
         return res

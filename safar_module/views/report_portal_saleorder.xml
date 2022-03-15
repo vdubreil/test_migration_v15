@@ -47,7 +47,7 @@
         <!--On ajoute la s_description_complete pour avoir la config et la qté sans unité-->
         <xpath expr="//section[@id='details']/table[1]/tbody[1]/t[2]/tr[1]/t[1]/td[1]" position="before">
 <!--            <td name="description_complete"><span t-field="line.s_description_complete"/></td>-->
-            <td name="description complete"><span t-field="line.name"/><t t-if="line.s_configuration"><br/><span t-field="line.s_configuration"/></t></td>
+            <td id="product_name" name="description complete"><span t-field="line.name"/><t t-if="line.s_configuration"><br/><span t-field="line.s_configuration"/></t></td>
             <td name="qty" t-options-widget="integer" class="text-right"><span t-field="line.product_uom_qty"/></td>
         </xpath>
         <!--On supprime la qté (qui était en 2 et a donc été décalé en 4 (ajout de 2 colonnes avant))-->

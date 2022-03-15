@@ -156,7 +156,7 @@
                 </page>
             </xpath>
             <xpath expr="//form[1]/sheet[1]/notebook[1]/page[1]/field[@name='child_ids']/form[1]/sheet[1]/group[1]/group[2]/field[@name='mobile']" position="after">
-                <field name="self" attrs="{'invisible': [('type','!=', 'delivery')]}" string="Détail fiche"/>
+                <field name="self" string="Détail fiche"/>
             </xpath>
             <xpath expr="//field[@name='child_ids']/form[1]/sheet[1]/group[1]/group[2]/field[@name='mobile']" position="after">
                 <field name="s_code_concession" attrs="{'invisible': [('type','!=', 'delivery')]}" string="Code concession"/>

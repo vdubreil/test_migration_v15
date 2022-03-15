@@ -9,7 +9,6 @@ from odoo.addons.portal.controllers.mail import _message_post_helper
 from odoo.addons.portal.controllers.portal import CustomerPortal, pager as portal_pager, get_records_pager
 
 import logging
-
 _logger = logging.getLogger(__name__)
 
 
@@ -20,12 +19,14 @@ class CustomerPortal(CustomerPortal):
         values = super(CustomerPortal, self)._prepare_home_portal_values()
         partner = request.env.user.partner_id
 
+        # comptage des BL (attention le domain doit être le même que dans la fonction de routing http)
         StockPicking = request.env['stock.picking']
         picking_count = StockPicking.search_count([
             ('message_partner_ids', 'child_of', [partner.commercial_partner_id.id]),
             ('state', 'in', ['assigned', 'done'])
         ]) if StockPicking.check_access_rights('read', raise_exception=False) else 0
 
+        # comptage des documents
         #         domain_tag_ids = partner.s_portail_tag_autorisees.s_tag_ids
         #         Document = request.env['documents.document']
         #         document_count = Document.search_count([
@@ -33,8 +34,39 @@ class CustomerPortal(CustomerPortal):
         #             '|',('tag_ids', '=', False), ('tag_ids', 'in', [g.id for g in domain_tag_ids]),
         #         ]) if Document.check_access_rights('read', raise_exception=False) else 0
 
+        # comptage des tarifs (attention le domain doit être le même que dans la fonction de routing http)
+        ProductPricelistItem = request.env['product.pricelist.item'].sudo()
+        domain = []
+        if partner.parent_id:  # le connecté a un parent
+            _logger.critical("le connecté à un parent=" + str(partner.parent_id.id))
+            if partner.parent_id.s_id_client_facture:  # le parent du connecté à un facturé
+                _logger.critical("le parent du connecté à un facturé=" + str(partner.parent_id.s_id_client_facture.id))
+                if partner.parent_id.s_id_client_facture.property_product_pricelist:
+                    domain = [
+                        ('pricelist_id', 'in', [partner.parent_id.s_id_client_facture.property_product_pricelist.id]),
+                    ]
+                    _logger.critical(
+                        "domain=" + str(partner.parent_id.s_id_client_facture.property_product_pricelist.id))
+            else:  # le parent du connecté n'a pas de facturé
+                if partner.parent_id.property_product_pricelist:
+                    domain = [
+                        ('pricelist_id', 'in', [partner.parent_id.property_product_pricelist.id]),
+                    ]
+        else:  # le connecté n'a pas de parent
+            if partner.s_id_client_facture:  # le connecté à un facturé
+                if partner.s_id_client_facture.property_product_pricelist:
+                    domain = [
+                        ('pricelist_id', 'in', [partner.s_id_client_facture.property_product_pricelist.id]),
+                    ]
+
+        if domain:
+            price_count = ProductPricelistItem.search_count(domain)
+        else:
+            price_count = 0
+
         values.update({
             'picking_count': picking_count,
+            'price_count': price_count,
             #             'document_count': document_count,
         })
         return values
@@ -126,6 +158,7 @@ class CustomerPortal(CustomerPortal):
         Document = request.env['documents.document']
         Folder = request.env['documents.folder']
         Group = request.env['res.groups'].sudo()
+        Partners = request.env['res.partner'].sudo()
 
         # Tracking
         self.tracking(57)
@@ -150,6 +183,11 @@ class CustomerPortal(CustomerPortal):
                 _logger.critical("ARBO_NAME = " + str(list_folder))
 
         domain_tag_ids = partner.s_portail_tag_autorisees.s_tag_ids
+        partner_parent = Partners.search([('id', '=', partner.parent_id.id)]).sudo()
+        if partner_parent:
+            if partner_parent.s_portail_tag_autorisees.s_tag_ids:
+                domain_tag_ids += partner_parent.s_portail_tag_autorisees.s_tag_ids
+
         #         _logger.critical("FOLDER_ID="+str(domain_tag_ids))
         domain_doc = [
             #             ('partner_id', 'in', [partner.commercial_partner_id.id])
@@ -345,6 +383,193 @@ class CustomerPortal(CustomerPortal):
             'sortby': sortby,
         })
         return request.render("safar_module.s_portal_my_bls", values)
+
+    # ---------------------------------------------------------------------
+    # LISTER LES TARIFS
+    @http.route(['/my/prices', '/my/prices/page/<int:page>'], type='http', auth="user", website=True)
+    def portal_my_prices(self, page=1, date_begin=None, date_end=None, sortby=None,
+                         **kw):  # , search=False  , 'my/prices/search'
+        _logger.critical("LISTER_PRICE")
+        values = self._prepare_portal_layout_values()
+        partner = request.env.user.partner_id
+        ProductPricelistItem = request.env['product.pricelist.item'].sudo()
+
+        # Tracking
+        self.tracking(65)
+
+        # Le domain doit être en phase avec le domain qui se trouve dans la fonction _prepare_portal_layout_values() située en haut !!!!
+        domain = []
+        if partner.parent_id:  # le connecté a un parent
+            _logger.critical("le connecté à un parent=" + str(partner.parent_id.id))
+            if partner.parent_id.s_id_client_facture:  # le parent du connecté à un facturé
+                _logger.critical(
+                    "le parent du connecté à un facturé=" + str(partner.parent_id.s_id_client_facture.id))
+                if partner.parent_id.s_id_client_facture.property_product_pricelist:
+                    domain = [
+                        ('pricelist_id', 'in',
+                         [partner.parent_id.s_id_client_facture.property_product_pricelist.id]),
+                    ]
+                    _logger.critical(
+                        "domain=" + str(partner.parent_id.s_id_client_facture.property_product_pricelist.id))
+            else:  # le parent du connecté n'a pas de facturé
+                if partner.parent_id.property_product_pricelist:
+                    domain = [
+                        ('pricelist_id', 'in', [partner.parent_id.property_product_pricelist.id]),
+                    ]
+        else:  # le connecté n'a pas de parent
+            if partner.s_id_client_facture:  # le connecté à un facturé
+                if partner.s_id_client_facture.property_product_pricelist:
+                    domain = [
+                        ('pricelist_id', 'in', [partner.s_id_client_facture.property_product_pricelist.id]),
+                    ]
+        if not domain:
+            domain = [
+                ('pricelist_id', 'in', [0]),
+            ]
+
+        #         if search:
+        #             val_recherche = post.get('price_search')
+        #             if val_recherche:
+        #                 domain += [
+        #                     ('s_ref_prdt_client', '=', 's_ref_prdt_client')
+        #                 ]
+
+        searchbar_sortings = {
+            'name': {'label': _('Libellé Client'), 'order': 's_lib_prdt_client'},
+            'ref': {'label': _('Reference'), 'order': 's_ref_prdt_client'},
+        }
+        # default sortby price
+        if not sortby:
+            sortby = 'name'
+        sort_price = searchbar_sortings[sortby]['order']
+
+        archive_groups = self._get_archive_groups('product.pricelist.item', domain) if values.get(
+            'my_details') else []
+        if date_begin and date_end:
+            domain += [('create_date', '>', date_begin), ('create_date', '<=', date_end)]
+
+        # count for pager
+        price_count = ProductPricelistItem.search_count(domain)
+        _logger.critical("NB_Price=" + str(price_count))
+        # pager
+        pager = portal_pager(
+            url="/my/prices",
+            url_args={'date_begin': date_begin, 'date_end': date_end, 'sortby': sortby},
+            total=price_count,
+            page=page,
+            step=self._items_per_page
+        )
+        # content according to pager and archive selected
+        prices = ProductPricelistItem.search(domain, order=sort_price, limit=self._items_per_page,
+                                             offset=pager['offset'])
+        request.session['my_prices_history'] = prices.ids[:100]
+
+        values.update({
+            'date': date_begin,
+            'myprices': prices.sudo(),
+            'page_name': 'my_prices',
+            'pager': pager,
+            'archive_groups': archive_groups,
+            'default_url': '/my/prices',
+            'searchbar_sortings': searchbar_sortings,
+            'sortby': sortby,
+            'count_price': price_count,
+        })
+        return request.render("safar_module.s_portal_my_prices", values)
+
+    # ---------------------------------------------------------------------
+    # RECHERCHER LES TARIFS
+    @http.route(['/my/prices/search'], type='http', auth="public", methods=['POST'], website=True)
+    def search_price(self, page=1, date_begin=None, date_end=None, sortby=None, **post):
+        _logger.critical("SEARCH_PRICE")
+        values = self._prepare_portal_layout_values()
+        partner = request.env.user.partner_id
+        ProductPricelistItem = request.env['product.pricelist.item'].sudo()
+
+        # Tracking
+        self.tracking(65)
+
+        # Le domain doit être en phase avec le domain qui se trouve dans la fonction _prepare_portal_layout_values() située en haut !!!!
+        domain = []
+        if partner.parent_id:  # le connecté a un parent
+            _logger.critical("le connecté à un parent=" + str(partner.parent_id.id))
+            if partner.parent_id.s_id_client_facture:  # le parent du connecté à un facturé
+                _logger.critical(
+                    "le parent du connecté à un facturé=" + str(partner.parent_id.s_id_client_facture.id))
+                if partner.parent_id.s_id_client_facture.property_product_pricelist:
+                    domain = [
+                        ('pricelist_id', 'in',
+                         [partner.parent_id.s_id_client_facture.property_product_pricelist.id]),
+                    ]
+                    _logger.critical(
+                        "domain=" + str(partner.parent_id.s_id_client_facture.property_product_pricelist.id))
+            else:  # le parent du connecté n'a pas de facturé
+                if partner.parent_id.property_product_pricelist:
+                    domain = [
+                        ('pricelist_id', 'in', [partner.parent_id.property_product_pricelist.id]),
+                    ]
+        else:  # le connecté n'a pas de parent
+            if partner.s_id_client_facture:  # le connecté à un facturé
+                if partner.s_id_client_facture.property_product_pricelist:
+                    domain = [
+                        ('pricelist_id', 'in', [partner.s_id_client_facture.property_product_pricelist.id]),
+                    ]
+        if not domain:
+            domain = [
+                ('pricelist_id', 'in', [0]),
+            ]
+
+        val_recherche = post.get('price_search')
+        if val_recherche:
+            domain += [
+                '|', ('s_ref_prdt_client', 'ilike', str(val_recherche)),
+                '|', ('s_lib_prdt_client', 'ilike', str(val_recherche)),
+                '|', ('product_tmpl_id.name', 'ilike', str(val_recherche)),
+                ('product_tmpl_id.s_modele_associe', 'ilike', str(val_recherche)),
+            ]
+
+        searchbar_sortings = {
+            'name': {'label': _('Libellé Client'), 'order': 's_lib_prdt_client'},
+            'ref': {'label': _('Reference'), 'order': 's_ref_prdt_client'},
+        }
+        # default sortby price
+        if not sortby:
+            sortby = 'name'
+        sort_price = searchbar_sortings[sortby]['order']
+
+        archive_groups = self._get_archive_groups('product.pricelist.item', domain) if values.get(
+            'my_details') else []
+        if date_begin and date_end:
+            domain += [('create_date', '>', date_begin), ('create_date', '<=', date_end)]
+
+        # count for pager
+        price_count = ProductPricelistItem.search_count(domain)
+        _logger.critical("NB_Price=" + str(price_count))
+        # pager
+        pager = portal_pager(
+            url="/my/prices",
+            url_args={'date_begin': date_begin, 'date_end': date_end, 'sortby': sortby},
+            total=price_count,
+            page=page,
+            step=self._items_per_page
+        )
+        # content according to pager and archive selected
+        prices = ProductPricelistItem.search(domain, order=sort_price, limit=self._items_per_page,
+                                             offset=pager['offset'])
+        request.session['my_prices_history'] = prices.ids[:100]
+
+        values.update({
+            'date': date_begin,
+            'myprices': prices.sudo(),
+            'page_name': 'my_prices',
+            'pager': pager,
+            'archive_groups': archive_groups,
+            'default_url': '/my/prices',
+            'searchbar_sortings': searchbar_sortings,
+            'sortby': sortby,
+            'count_price': price_count,
+        })
+        return request.render("safar_module.s_portal_my_prices", values)
 
     # ---------------------------------------------------------------------
     # LISTER LES CDES
