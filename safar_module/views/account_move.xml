@@ -75,7 +75,7 @@
                         string="Export Importateur"
                         type="object"
                         class="btn-primary"
-                        attrs="{'invisible': [('move_type','!=','out_invoice'),('type','!=','out_refund')]}"/>
+                        attrs="{'invisible': [('move_type','!=','out_invoice'),('move_type','!=','out_refund')]}"/>
             </xpath>
 
         </field>
