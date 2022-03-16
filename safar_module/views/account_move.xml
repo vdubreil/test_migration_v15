@@ -21,9 +21,9 @@
 
             <!--Ajout du n° de ligne et de la ref cde-->
             <xpath expr="//page/field[@name='invoice_line_ids']/tree[1]/field[@name='product_id']" position="before">
-                <field name="s_ref_order_client" string="Ref Cde" attrs="{'column_invisible': [('parent.type','!=','out_invoice')]}"/>
-                <field name="s_no_ligne_commande" string="N° Ligne" attrs="{'column_invisible': [('parent.type','!=','out_invoice')]}"/>
-                <field name="s_ref_client" string="Ref Article" attrs="{'column_invisible': [('parent.type','!=','out_invoice')]}"/>
+                <field name="s_ref_order_client" string="Ref Cde" attrs="{'column_invisible': [('parent.move_type','!=','out_invoice')]}"/>
+                <field name="s_no_ligne_commande" string="N° Ligne" attrs="{'column_invisible': [('parent.move_type','!=','out_invoice')]}"/>
+                <field name="s_ref_client" string="Ref Article" attrs="{'column_invisible': [('parent.move_type','!=','out_invoice')]}"/>
             </xpath>
 
             <!--Change le tri des colonnes-->
@@ -41,7 +41,7 @@
             </xpath>
             <!--Ajout du champ code concession-->
             <xpath expr="//page/field[@name='invoice_line_ids']/tree[1]/field[@name='name']" position="after">
-                <field name="s_code_concession" string="Concession" attrs="{'column_invisible': [('parent.type','!=','out_invoice')]}"/>
+                <field name="s_code_concession" string="Concession" attrs="{'column_invisible': [('parent.move_type','!=','out_invoice')]}"/>
             </xpath>
 
             <!--On empêche la création ou modification via les options du Many2one-->
@@ -63,19 +63,19 @@
             </xpath>
 
             <xpath expr="//field[@name='currency_id']" position="after">
-                <field name="s_dt_export_importateur" string="Dt Export Importateur" readonly="1" attrs="{'invisible': [('type','!=','out_invoice')]}"/>
-                <field name="s_dt_export_sage" string="Dt Export Sage" readonly="1" attrs="{'invisible': [('type','!=','out_invoice')]}"/>
+                <field name="s_dt_export_importateur" string="Dt Export Importateur" readonly="1" attrs="{'invisible': [('move_type','!=','out_invoice')]}"/>
+                <field name="s_dt_export_sage" string="Dt Export Sage" readonly="1" attrs="{'invisible': [('move_type','!=','out_invoice')]}"/>
                 <button name="call_chercher_remise_importateur"
                         string="Appliquer Remise Importateur"
                         type="object"
                         class="btn-primary"
-                        attrs="{'invisible': ['|',('type','!=','out_invoice'),('state','=','posted')]}"/>
+                        attrs="{'invisible': ['|',('move_type','!=','out_invoice'),('state','=','posted')]}"/>
                 <!--On ajoute un bouton pour joindre le site d'export des factures d'importateur-->
                 <button name="call_safar_export_facture_importateur"
                         string="Export Importateur"
                         type="object"
                         class="btn-primary"
-                        attrs="{'invisible': [('type','!=','out_invoice'),('type','!=','out_refund')]}"/>
+                        attrs="{'invisible': [('move_type','!=','out_invoice'),('type','!=','out_refund')]}"/>
             </xpath>
 
         </field>
