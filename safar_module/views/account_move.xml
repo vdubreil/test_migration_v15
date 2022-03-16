@@ -124,7 +124,7 @@
             </xpath>
             <!--Ajout dans le group by-->
             <xpath expr="//group/filter[@name='status']" position="after">
-                <field name="s_num_client_facture_related" string="Cd Client" domain="[]" context="{'group_by':'s_num_client_facture_related'}"/>
+                <field name="s_num_client_facture_related" string="Cd Client" context="{'group_by':'s_num_client_facture_related'}"/>
                 <field name="invoice_payment_term_id" string="Conditions de paiement" domain="[]" context="{'group_by':'invoice_payment_term_id'}"/>
             </xpath>
         </field>
