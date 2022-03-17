@@ -6,9 +6,9 @@
         <field name="arch" type="xml">
 
             <!--Modifie le groupe d'accès au bouton post_inventory-->
-            <xpath expr="//button[@name='post_inventory']" position="attributes">
+            <!--<xpath expr="//button[@name='post_inventory']" position="attributes">
                 <attribute name="groups">safar_module.grp_post_inventory, base.group_no_one</attribute>
-            </xpath>
+            </xpath>-->
 
             <xpath expr="//field[@name='routing_id']" position="after">
 <!--                <field name="s_of_gesprod" string="OF Gesprod"/>-->
