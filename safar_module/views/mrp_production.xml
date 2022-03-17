@@ -44,8 +44,8 @@
                       <group name="grp_button_left">
                           <p><button name="button_etiq_datamax" string="Etiquette Textile (DATAMAX)" type="object" class="btn-primary" width="330"/></p><br/>
                           <p><button name="button_etiq_sato" string="Etiquette Packaging (SATO)" type="object" class="btn-primary" width="330"/></p><br/>
-                          <p><button name="button_etiq_affichette_packaging" string="Etiquette affichette packaging" type="object" class="btn-primary" width="330"/></p><br/>
-                          <p><button name="button_notice_montage" string="Notice de montage" type="object" class="btn-primary" width="330"/></p>
+                          <!--<p><button name="button_etiq_affichette_packaging" string="Etiquette affichette packaging" type="object" class="btn-primary" width="330"/></p><br/>
+                          <p><button name="button_notice_montage" string="Notice de montage" type="object" class="btn-primary" width="330"/></p>-->
                       </group>
                       <group name="grp_right">
                           <field name="s_ligne_1_label" string="Etiquette L1"/>
