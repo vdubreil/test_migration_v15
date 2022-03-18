@@ -30,7 +30,7 @@
                 <field name="s_operateur" string="Opérateur"/>
             </xpath>
 
-            <xpath expr="//notebook[1]/page[1]/field[1]" position="after">
+            <xpath expr="//notebook[1]/page[1]/group[1]/field[1]" position="after">
                 <label for="s_note_operateur" string="Notes de l'opérateur"/>
                 <field name="s_note_operateur" string="Notes opérateur" placeholder="Notes de l'opérateur"/>
             </xpath>
