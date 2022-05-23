@@ -21,7 +21,7 @@
     # any module necessary for this one to work correctly
     'depends': ['account', 'base', 'contacts', 'product', 'sale', 'mrp', 'stock', 'sale_stock', 'web', 'purchase',
                 'hr', 'quality_control', 'mrp_workorder', 'delivery', 'account_batch_payment', 'website', 'documents', 'crm',
-                'website_sale', 'helpdesk'],
+                'website_sale', 'helpdesk', 'account_accountant'],
 
     # 'qweb': [
     #     'static/src/xml/copy_paste_btn.xml',
