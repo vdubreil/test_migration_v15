@@ -9,11 +9,11 @@
                 <attribute name="attrs"></attribute>
             </xpath>
             <!--idem pour le type de partner-->
-            <xpath expr="//form[1]/sheet[1]/group[1]/group[1]/field[@name='type']" position="attributes">
+            <xpath expr="//form[1]/sheet[1]/group[1]/group[1]/span[1]/field[@name='type']" position="attributes">
                 <attribute name="attrs"></attribute>
                 <attribute name="groups"></attribute>
             </xpath>
-            <xpath expr="//form[1]/sheet[1]/group[1]/group[1]/field[@name='type']" position="before">
+            <xpath expr="//form[1]/sheet[1]/group[1]/group[1]/span[1]/field[@name='type']" position="before">
                 <field name="s_num_client" string="N° Client SAFAR" attrs="{'readonly': [('id', '!=', False)], 'invisible': [('id', '=', False)]}"/>
             </xpath>
             <xpath expr="//field[@name='vat']" position="after">

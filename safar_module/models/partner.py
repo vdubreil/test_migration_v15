@@ -25,9 +25,9 @@ class Partner(models.Model):
     s_dt_optin = fields.Date(string="Dt Optin")
     s_dt_optout = fields.Date(string="Dt Optout")
     s_status_client = fields.Selection(selection=[('actif', 'Actif'), ('inactif', 'Inactif')], string="Statut Client")
-    s_gescom_ca_2018 = fields.Float(currency_field="s_currency_id", string="CA 2018")
-    s_gescom_ca_2019 = fields.Float(currency_field="s_currency_id", string="CA 2019")
-    s_mt_encours_client = fields.Float(currency_field="s_currency_id", string="Encours Client")
+    s_gescom_ca_2018 = fields.Float(string="CA 2018")
+    s_gescom_ca_2019 = fields.Float(string="CA 2019")
+    s_mt_encours_client = fields.Float(string="Encours Client")
     s_code_concession = fields.Char(string='Code concession')
     s_nature_client = fields.Selection(selection=[('agent', 'Agent'), ('direct', 'Direct'), ('groupe', 'Groupe'),
                                                   ('importateur', 'Importateur'), ('reseau', 'Réseau')],

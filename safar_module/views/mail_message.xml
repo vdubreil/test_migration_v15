@@ -7,16 +7,16 @@
         <field name="model">mail.message</field>
         <field name="inherit_id" ref="mail.view_message_form"/>
         <field name="arch" type="xml">
-            <xpath expr="//field[@name='moderator_id']" position="after">
+            <xpath expr="//field[@name='is_internal']" position="after">
                 <field name="mail_activity_type_id" invisible="1"/>
                 <button type="object" string="Voir Document/Contact" name= "open_popup_form" class="btn-primary"/>
             </xpath>
-            <xpath expr="//field[@name='moderator_id']" position="attributes">
-                <attribute name="attrs">{'invisible': ['|',('mail_activity_type_id','=',2), ('mail_activity_type_id','=',3)]}</attribute>
-            </xpath>
-            <xpath expr="//field[@name='moderation_status']" position="attributes">
-                <attribute name="attrs">{'invisible': ['|',('mail_activity_type_id','=',2), ('mail_activity_type_id','=',3)]}</attribute>
-            </xpath>
+<!--            <xpath expr="//field[@name='moderator_id']" position="attributes">-->
+<!--                <attribute name="attrs">{'invisible': ['|',('mail_activity_type_id','=',2), ('mail_activity_type_id','=',3)]}</attribute>-->
+<!--            </xpath>-->
+<!--            <xpath expr="//field[@name='moderation_status']" position="attributes">-->
+<!--                <attribute name="attrs">{'invisible': ['|',('mail_activity_type_id','=',2), ('mail_activity_type_id','=',3)]}</attribute>-->
+<!--            </xpath>-->
             <xpath expr="//form/sheet/notebook/page[2]" position="attributes">
                 <attribute name="attrs">{'invisible': ['|',('mail_activity_type_id','=',2), ('mail_activity_type_id','=',3)]}</attribute>
             </xpath>

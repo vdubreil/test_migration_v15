@@ -21,9 +21,9 @@
 
             <!--Ajout du n° de ligne et de la ref cde-->
             <xpath expr="//page/field[@name='invoice_line_ids']/tree[1]/field[@name='product_id']" position="before">
-                <field name="s_ref_order_client" string="Ref Cde" attrs="{'column_invisible': [('parent.type','!=','out_invoice')]}"/>
-                <field name="s_no_ligne_commande" string="N° Ligne" attrs="{'column_invisible': [('parent.type','!=','out_invoice')]}"/>
-                <field name="s_ref_client" string="Ref Article" attrs="{'column_invisible': [('parent.type','!=','out_invoice')]}"/>
+                <field name="s_ref_order_client" string="Ref Cde" attrs="{'column_invisible': [('parent.move_type','!=','out_invoice')]}"/>
+                <field name="s_no_ligne_commande" string="N° Ligne" attrs="{'column_invisible': [('parent.move_type','!=','out_invoice')]}"/>
+                <field name="s_ref_client" string="Ref Article" attrs="{'column_invisible': [('parent.move_type','!=','out_invoice')]}"/>
             </xpath>
 
             <!--Change le tri des colonnes-->
@@ -124,7 +124,7 @@
             </xpath>
             <!--Ajout dans le group by-->
             <xpath expr="//group/filter[@name='status']" position="after">
-                <field name="s_num_client_facture_related" string="Cd Client" domain="[]" context="{'group_by':'s_num_client_facture_related'}"/>
+                <field name="s_num_client_facture_related" string="Cd Client" context="{'group_by':'s_num_client_facture_related'}"/>
                 <field name="invoice_payment_term_id" string="Conditions de paiement" domain="[]" context="{'group_by':'invoice_payment_term_id'}"/>
             </xpath>
         </field>

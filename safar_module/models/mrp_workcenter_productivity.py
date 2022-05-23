@@ -12,7 +12,6 @@ class MrpWorkcenterProductivity(models.Model):
     s_qte_realisee = fields.Integer(string='Qté réalisée')
     s_product_id = fields.Many2one(related="production_id.product_id", string="Article", store=True)
     s_categ_id = fields.Many2one(related="production_id.product_id.product_tmpl_id.categ_id", string="Catégorie Article", store=True)
-    s_gamme = fields.Many2one(related="production_id.routing_id", string="Gamme", store=True)
     s_of_cd = fields.Char(related="production_id.name", string="OF", store=True)
     s_operation = fields.Char(related="workorder_id.name", string="Opération", store=True)
     s_uo_qte = fields.Float(string="UOxQté")
