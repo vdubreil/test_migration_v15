@@ -100,3 +100,7 @@ partner_inv_clt_user,partner_inv_clt user,safar_module.model_s_partner_inv_clt,b
 
 partner_inv_art_system,partner_inv_art system,safar_module.model_s_partner_inv_art,base.group_system,1,1,1,1
 partner_inv_art_user,partner_inv_art user,safar_module.model_s_partner_inv_art,base.group_user,1,0,0,0
+
+mrp_box_system,mrp_box system,safar_module.model_s_mrp_box,base.group_system,1,1,1,1
+mrp_box_user,mrp_box user,safar_module.model_s_mrp_box,base.group_user,1,1,0,0
+

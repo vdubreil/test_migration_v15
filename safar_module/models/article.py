@@ -48,6 +48,7 @@ class Article(models.Model):
     s_categorie_pdr = fields.Many2one('s_article_categorie_pdr')
     s_cd_delai_fabrication = fields.Many2one('s_delai_fabrication')
     s_nom_simulateur = fields.Char(string="Nom d'affichage")
+    s_lib_ecommerce = fields.Char(string="Libellé eCommerce")
 
     def write(self, values):
         if 's_unite_oeuvre' in values:

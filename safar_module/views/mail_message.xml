@@ -5,18 +5,18 @@
     <record model="ir.ui.view" id="s_view_message_form">
         <field name="name">Safar.s_view_message_form</field>
         <field name="model">mail.message</field>
-        <field name="inherit_id" ref="mail.mail_message_view_form"/>
+        <field name="inherit_id" ref="mail.view_message_form"/>
         <field name="arch" type="xml">
-            <xpath expr="//field[@name='is_internal']" position="after">
+            <xpath expr="//field[@name='moderator_id']" position="after">
                 <field name="mail_activity_type_id" invisible="1"/>
                 <button type="object" string="Voir Document/Contact" name= "open_popup_form" class="btn-primary"/>
             </xpath>
-            <!--<xpath expr="//field[@name='moderator_id']" position="attributes">
+            <xpath expr="//field[@name='moderator_id']" position="attributes">
                 <attribute name="attrs">{'invisible': ['|',('mail_activity_type_id','=',2), ('mail_activity_type_id','=',3)]}</attribute>
             </xpath>
             <xpath expr="//field[@name='moderation_status']" position="attributes">
                 <attribute name="attrs">{'invisible': ['|',('mail_activity_type_id','=',2), ('mail_activity_type_id','=',3)]}</attribute>
-            </xpath>-->
+            </xpath>
             <xpath expr="//form/sheet/notebook/page[2]" position="attributes">
                 <attribute name="attrs">{'invisible': ['|',('mail_activity_type_id','=',2), ('mail_activity_type_id','=',3)]}</attribute>
             </xpath>
@@ -25,6 +25,10 @@
             </xpath>
             <xpath expr="//form/sheet/notebook/page[4]" position="attributes">
                 <attribute name="attrs">{'invisible': ['|',('mail_activity_type_id','=',2), ('mail_activity_type_id','=',3)]}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='subtype_id']" position="after">
+                <field name="s_type_contact" readonly="1"/>
+                <field name="s_valide" string="Validité" readonly="1"/>
             </xpath>
         </field>
     </record>

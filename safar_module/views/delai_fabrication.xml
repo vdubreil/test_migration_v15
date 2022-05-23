@@ -13,7 +13,7 @@
     </record>
 
     <record model="ir.actions.act_window" id="safar_delai_fabrication_action">
-        <field name="name">Tâches opérateurs</field>
+        <field name="name">Délais de fabrication</field>
         <field name="res_model">s_delai_fabrication</field>
         <field name="view_mode">tree,form</field>
     </record>

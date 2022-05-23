@@ -1,0 +1,69 @@
+<odoo>
+    <!--Ajouter après le prix, HT et ensuite le prix TTC entre parenthèses-->
+    <record model="ir.ui.view" id="s_website_sale_product_price">
+        <field name="name">Safar.website_sale.product_price</field>
+        <field name="inherit_id" ref="website_sale.product_price"/>
+        <field name="arch" type="xml">
+            <xpath expr="//t[1]/div[1]/h4[1]/b[1]" position="after">
+                HT
+                <span class="text-muted" style="font-size: 14px">
+                  (<span class="text-muted" style="white-space: nowrap;" t-esc="combination_info['price']*1.2" t-options="{'widget': 'monetary', 'display_currency': website.currency_id}"/> TTC)
+                </span>
+            </xpath>
+        </field>
+    </record>
+
+    <!--Dans la liste des produits, afficher le libellé eCommerce s'il existe, sinon le libellé du produit-->
+    <record model="ir.ui.view" id="s_website_sale_products_item">
+        <field name="name">Safar.website_sale.products.item</field>
+        <field name="inherit_id" ref="website_sale.products_item"/>
+        <field name="arch" type="xml">
+            <!--on ajoute un nouvel affichage du nom du produit-->
+            <xpath expr="//*[hasclass('o_wsale_products_item_title')]/a[1]" position="after">
+                <t t-if="product.s_lib_ecommerce">
+                    <a itemprop="name" t-att-href="product_href" t-att-content="product.s_lib_ecommerce" t-field="product.s_lib_ecommerce"/>
+                </t>
+                <t t-else="">
+                    <a itemprop="name" t-att-href="product_href" t-att-content="product.name" t-field="product.name"/>
+                </t>
+            </xpath>
+            <!--et on supprime la ligne actuelle-->
+            <xpath expr="//*[hasclass('o_wsale_products_item_title')]/a[1]" position="replace"/>
+            <!--on ajoute HT après le prix-->
+            <xpath expr="//*[hasclass('product_price')]/span[1]" position="after">
+                 HT
+            </xpath>
+        </field>
+    </record>
+
+    <!--Dans la fiche produit, afficher le libellé eCommerce s'il existe, sinon le libellé du produit-->
+    <record model="ir.ui.view" id="s_website_sale_product">
+        <field name="name">Safar.website_sale.product</field>
+        <field name="inherit_id" ref="website_sale.product"/>
+        <field name="arch" type="xml">
+            <!--on ajoute un nouvel affichage du nom du produit-->
+            <xpath expr="//div[@id='product_details']/h1[1]" position="after">
+                <t t-if="product.s_lib_ecommerce">
+                    <h1 itemprop="name" t-field="product.s_lib_ecommerce">Product Name</h1>
+                </t>
+                <t t-else="">
+                    <h1 itemprop="name" t-field="product.name">Product Name</h1>
+                </t>
+            </xpath>
+            <!--et on supprime la ligne actuelle-->
+            <xpath expr="//div[@id='product_details']/h1[1]" position="replace"/>
+
+            <!--on modifie également l'affichage du nom dans le breadcrumb de la fiche produit-->
+            <xpath expr="//section[@id='product_detail']/div[1]/div[1]/ol[1]/li[3]/span[1]" position="after">
+                <t t-if="product.s_lib_ecommerce">
+                    <span t-field="product.s_lib_ecommerce"/>
+                </t>
+                <t t-else="">
+                    <span t-field="product.name"/>
+                </t>
+            </xpath>
+            <!--et on supprime l'affichage actuel du nom du produit dans le breadcrumb-->
+            <xpath expr="//section[@id='product_detail']/div[1]/div[1]/ol[1]/li[3]/span[1]" position="replace"/>
+        </field>
+    </record>
+</odoo>

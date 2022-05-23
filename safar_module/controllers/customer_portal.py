@@ -7,6 +7,8 @@ from odoo.exceptions import AccessError, MissingError
 from odoo.http import request
 from odoo.addons.portal.controllers.mail import _message_post_helper
 from odoo.addons.portal.controllers.portal import CustomerPortal, pager as portal_pager, get_records_pager
+from odoo.addons.website_sale.controllers.main import WebsiteSale
+from odoo.osv import expression
 
 import logging
 _logger = logging.getLogger(__name__)
@@ -72,6 +74,22 @@ class CustomerPortal(CustomerPortal):
         return values
 
     # ---------------------------------------------------------------------
+    # Renvoyer le partner correspondant au num de tél transmis
+    @http.route(['/phone_number=<string:phone>'], type='http', auth="user", website=True)
+    def get_partner_of_phone(self, phone='', **kw):
+        _logger.critical("APPEL RECU : " + str(phone) + "/" + str(phone[-9:]))
+        Partner = request.env['res.partner'].sudo()
+        partners_called = Partner.search(
+            ['|', ('s_phone_num', 'ilike', phone[-9:]), ('s_mobile_num', 'like', phone[-9:])])
+        if partners_called:
+            for partner_called in partners_called:
+                _logger.critical("PARTNER CALLED = " + str(partner_called.id))
+                if partner_called.parent_id:
+                    return request.redirect('/web#id=' + str(partner_called.parent_id.id) + '&action=663&model=res.partner&view_type=form&cids=1&menu_id=436')
+                else:
+                    return request.redirect('/web#id=' + str(partner_called.id) + '&action=663&model=res.partner&view_type=form&cids=1&menu_id=436')
+
+    # ---------------------------------------------------------------------
     # POUR DUPLIQUER UNE CDE
     @http.route(['/my/orders/<int:order_id>/duplicate'], type='http', auth="public", methods=['POST'], website=True)
     def duplicate(self, order_id, access_token=None, **post):
@@ -98,39 +116,21 @@ class CustomerPortal(CustomerPortal):
             'user_id': False,
         }
 
-        if message:
-            # il y a un message donc c'est pour un devis
-            msg = "Devis créé par le client à partir de sa commande "
-            msg += "<a href=# data-oe-model=sale.order data-oe-id=%d>%s</a>" % (
+        msg = "Devis créé par le client à partir de sa commande "
+        msg += "<a href=# data-oe-model=sale.order data-oe-id=%d>%s</a>" % (
             order_sudo.id, order_sudo.name) + '<br/>'
-            msg += "Souhaits du client pour cette quotation : " + '<br/>' + str(message)
-            val['state'] = 'draft'
-            order = order_sudo.action_duplicate(val)
-            if order:
-                _logger.critical("ORDER=" + str(order.id))
-                query_string = '&message=quotation_ok'
-                order.message_post(body=msg)
-                self.abonner_follower_adv(order)
-            else:
-                query_string = '&message=quotation_ko'
-
-            return request.redirect(order_sudo.get_portal_url(query_string=query_string))
+        msg += "Souhaits du client pour cette quotation : " + '<br/>' + str(message)
+        val['state'] = 'draft'
+        order = order_sudo.action_duplicate(val)
+        if order:
+            _logger.critical("ORDER=" + str(order.id))
+            query_string = '&message=quotation_ok'
+            order.message_post(body=msg)
+            self.abonner_follower_adv(order)
         else:
-            # pas de message donc c'est pour une duplication à l'identique de la cde
-            val['state'] = 'sent'
-            order = order_sudo.action_duplicate(val)
-            if order:
-                query_string = '&message=duplicate_ok'
-                #                 msg = 'Commande passée par le client à partir de la commande ' + str(order_sudo.name)
-                msg = 'Commande passée par le client à partir de la commande '
-                msg += "<a href=# data-oe-model=sale.order data-oe-id=%d>%s</a>" % (order_sudo.id, order_sudo.name)
+            query_string = '&message=quotation_ko'
 
-                order.message_post(body=msg)
-                self.abonner_follower_adv(order)
-                return request.redirect(order.get_portal_url(query_string=query_string))
-            else:
-                query_string = '&message=duplicate_ko'
-                return request.redirect('/my')
+        return request.redirect(order_sudo.get_portal_url(query_string=query_string))
 
     def abonner_follower_adv(self, myorder):
         # On cherche le res.groups "Notifier si commande portail"
@@ -617,3 +617,67 @@ class CustomerPortal(CustomerPortal):
         myurl = request.httprequest.url
         WebsiteVisitor = request.env['website.visitor']
         WebsiteVisitor._track_visit_web_visitor(page_track, myurl)
+
+
+
+
+class WebsiteSale(WebsiteSale):
+
+    # ---------------------------------------------------------------------
+    @http.route('/shop/products/autocomplete', type='json', auth='public', website=True)
+    def products_autocomplete(self, term, options={}, **kwargs):
+
+        res = super(WebsiteSale, self).products_autocomplete(term, options, **kwargs)
+        # _logger.critical("RES_AVT="+str(res))
+        if res:
+            if 'products' in res:
+                ProductTemplate = request.env['product.template']
+                list_prdt = res['products']
+                list_new_prdt = []
+                for dict_prdt in list_prdt:
+                    if dict_prdt['id']:
+                        prdt = ProductTemplate.search([('id', '=', dict_prdt['id'])])
+                        if prdt:
+                            if prdt.s_lib_ecommerce:
+                                dict_prdt['name'] = prdt.s_lib_ecommerce
+                    list_new_prdt.append(dict_prdt)
+                res['products'] = list_new_prdt
+        # _logger.critical("RES_APR="+str(res))
+        return res
+
+    # ---------------------------------------------------------------------
+    def _get_search_domain(self, search, category, attrib_values, search_in_description=True):
+        domains = [request.website.sale_product_domain()]
+        if search:
+            for srch in search.split(" "):
+                subdomains = [
+                    [('name', 'ilike', srch)],
+                    [('s_lib_ecommerce', 'ilike', srch)],
+                    [('product_variant_ids.default_code', 'ilike', srch)]
+                ]
+                _logger.critical("DOMAIN=" + str(subdomains))
+                if search_in_description:
+                    subdomains.append([('description', 'ilike', srch)])
+                    subdomains.append([('description_sale', 'ilike', srch)])
+                domains.append(expression.OR(subdomains))
+
+        if category:
+            domains.append([('public_categ_ids', 'child_of', int(category))])
+
+        if attrib_values:
+            attrib = None
+            ids = []
+            for value in attrib_values:
+                if not attrib:
+                    attrib = value[0]
+                    ids.append(value[1])
+                elif value[0] == attrib:
+                    ids.append(value[1])
+                else:
+                    domains.append([('attribute_line_ids.value_ids', 'in', ids)])
+                    attrib = value[0]
+                    ids = [value[1]]
+            if attrib:
+                domains.append([('attribute_line_ids.value_ids', 'in', ids)])
+
+        return expression.AND(domains)

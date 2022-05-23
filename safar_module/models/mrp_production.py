@@ -28,6 +28,7 @@ class MrpProduction(models.Model):
     s_abl = fields.Selection(selection=[('oui', 'Oui'), ('non', 'Non')], string="Présence ABL")
     s_of_prepare = fields.Boolean(string="Préparé")
     s_categ_id = fields.Many2one(related="product_id.product_tmpl_id.categ_id", string="Catégorie Article", store=True)
+    s_id_box = fields.Many2one('s_mrp_box', string="Box", ondelete='cascade')
 
     """CODE récupéré depuis application achetée sur le store 'Sale order quick MRP information'"""
 
@@ -207,9 +208,9 @@ class MrpProduction(models.Model):
                         record.s_unite_oeuvre = record.product_id.product_tmpl_id.s_unite_oeuvre
                         record.s_uo_qte = record.product_id.product_tmpl_id.s_unite_oeuvre * record.product_qty
 
-                    # on mémorise la présence d'un ABL de l'article
-                    if record.product_id.product_tmpl_id.s_abl:
-                        record.s_abl = record.product_id.product_tmpl_id.s_abl
+                    # on mémorise la présence d'un ABL dans la ligne de cde
+                    if move.sale_line_id.s_abl:
+                        record.s_abl = move.sale_line_id.s_abl
         else:
             # Si pas de ligne de cde, cela signifie que c'est un OF manuel (ou réappro)
             # pour chaque champ, on regarde d'abord s'il y a une valeur au niveau product.product

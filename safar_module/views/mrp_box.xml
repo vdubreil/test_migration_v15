@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record model="ir.ui.view" id="s_mrp_box_form_view">
+        <field name="name">Safar.s_mrp_box_form</field>
+        <field name="model">s_mrp_box</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet string="s_mrp_box">
+                    <group>
+                        <field name="s_name" string="Nom du Box"/>
+                    </group>
+
+                    <notebook>
+                        <page name="ong_of" string="OF contenus dans ce Box" groups="mrp.group_mrp_read">
+                            <field name="s_tab_of">
+                                <tree string="OF" editable="bottom" create="false" edit="false" delete="false">
+                                    <field name="name"/>
+                                    <field name="company_id" invisible="1"/>
+                                    <field name="date_planned_start"/>
+                                    <field name="product_id"/>
+                                    <field name="product_qty"/>
+                                    <field name="state"/>
+                                    <field name="date_finished"/>
+                                    <button name="action_view_order" type="object" icon="fa-eye" class="btn btn-outline-primary btn-sm" string="View"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                    <group>
+                      <group string="Transfert vers un autre Box">
+                        <div class="o_row">
+                          <label for="" name="s_id_box_transfert">Transférer ces OF dans le Box</label>
+                          <field name="s_id_box_transfert" domain="[('id', '!=', id)]"/>
+                          <button name="call_move_of" string="Transférer" confirm="Confirmez-vous le transfert des OF vers le Box sélectionné ?" type="object" class="btn-primary" attrs="{'invisible': ['|', ('s_tab_of','=', False), ('s_id_box_transfert','=', False)]}"/>
+                        </div>
+                      </group>
+                    </group>
+                    <group>
+                        <group string="Vider le Box manuellement">
+                            <button name="call_clean_box" string="Vider tout le box" confirm="Confirmez-vous le vidage de tous les OF de ce Box ?" type="object" class="btn-primary oe_edit_only"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="s_mrp_box_tree_view">
+        <field name="name">Safar.s_mrp_box_tree</field>
+        <field name="model">s_mrp_box</field>
+        <field name="arch" type="xml">
+            <tree string="s_mrp_box">
+                <field name="s_name" string="Box"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="mrp_box_action">
+        <field name="name">Box de transport</field>
+        <field name="res_model">s_mrp_box</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="mrp_box_action_menu_fabrication" name="Box de transport" parent="mrp.menu_mrp_configuration" action="mrp_box_action" sequence="142"/>
+
+    <menuitem id="mrp_box_action_menu_inventaire" name="Gestion des Box" parent="stock.menu_stock_warehouse_mgmt" action="mrp_box_action" sequence="136"/>
+</odoo>

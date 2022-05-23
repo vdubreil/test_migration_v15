@@ -12,6 +12,8 @@ from . import company
 from . import delai_fabrication
 from . import famille_client
 from . import gabarit_lectra
+from . import helpdesk_team
+from . import helpdesk_ticket
 from . import hr_employee
 from . import hr_employee_public
 from . import image_simulateur
@@ -30,6 +32,7 @@ from . import sale_order
 # from . import stock_move_line
 from . import ligne_commande
 from . import mail_message
+from . import mrp_box
 from . import mrp_production
 from . import mrp_routing_workcenter
 from . import mrp_workorder

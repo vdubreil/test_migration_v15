@@ -28,7 +28,7 @@
     </record>
 
     <record model="ir.actions.act_window" id="groupe_client_action">
-        <field name="name">GroupeClient</field>
+        <field name="name">Groupes de Clients</field>
         <field name="res_model">s_groupe_client</field>
         <field name="view_mode">tree,form</field>
     </record>

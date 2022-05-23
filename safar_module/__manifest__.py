@@ -16,12 +16,12 @@
     # Check https://github.com/odoo/odoo/blob/13.0/odoo/addons/base/data/ir_module_category_data.xml
     # for the full list
     'category': 'Uncategorized',
-    'license': 'OPL-1',
     'version': '0.4',
 
     # any module necessary for this one to work correctly
     'depends': ['account', 'base', 'contacts', 'product', 'sale', 'mrp', 'stock', 'sale_stock', 'web', 'purchase',
-                'hr', 'quality_control', 'mrp_workorder', 'delivery', 'account_batch_payment', 'website', 'documents', 'crm'],
+                'hr', 'quality_control', 'mrp_workorder', 'delivery', 'account_batch_payment', 'website', 'documents', 'crm',
+                'website_sale', 'helpdesk'],
 
     # 'qweb': [
     #     'static/src/xml/copy_paste_btn.xml',
@@ -54,6 +54,7 @@
         'views/famille_client.xml',
         'views/groupe_client.xml',
         'views/gabarit_lectra.xml',
+        'views/helpdesk.xml',
         'views/hr_employee.xml',
         'views/image_simulateur.xml',
         'views/ligne_commande.xml',
@@ -61,6 +62,7 @@
         'views/mail_activity.xml',
         'views/mail_message.xml',
         'views/mrp.bom.xml',
+        'views/mrp_box.xml',
         'views/mrp_production.xml',
         'views/mrp.routing.workcenter.xml',
         'views/mrp_workcenter_productivity.xml',
@@ -82,6 +84,7 @@
         'views/product_pricelist.xml',
         'views/product_pricelist_item.xml',
         'views/product_pricelist_item_tree_from_product.xml',
+        'views/product_template_ecommerce.xml',
         'views/produit_client.xml',
         'views/purchase_order.xml',
         'views/quality_check.xml',
@@ -92,6 +95,7 @@
         'views/report_invoice_document.xml',
         'views/report_invoice_document_address.xml',
         'views/report_label_etiquette.xml',
+        'views/report_label_livraison.xml',
         'views/report_mrp_production.xml',
         'views/report_portal_saleorder.xml',
         'views/report_purchaseorder_document.xml',
@@ -101,6 +105,7 @@
         'views/sale_order.xml',
         'views/stock_picking.xml',
         'views/stock_quant_package.xml',
+        'views/stock_valuation_layer.xml',
         'views/structure_juridique.xml',
         'views/univers_gabarit.xml',
         'views/vehicule.xml',
@@ -112,6 +117,7 @@
         'views/vehicule_serie.xml',
         'views/vehicule_univers.xml',
         'views/inventaire.xml',
+        'views/website_product.xml',
         # 'views/mrp.routing.xml',
     ],
     'images': [

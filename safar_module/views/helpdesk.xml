@@ -1,0 +1,24 @@
+<odoo>
+    <record model="ir.ui.view" id="s_helpdesk_team_view_form">
+         <field name="name">Safar.helpdesk_team_view_form</field>
+         <field name="model">helpdesk.team</field>
+         <field name="inherit_id" ref="helpdesk.helpdesk_team_view_form"/>
+         <field name="arch" type="xml">
+             <xpath expr="//div[@id='website_form_channel']" position="after">
+                 <div class="row mt32 o_settings_container" id="website_send_mail">
+                        <div class="col-lg-6 o_setting_box" id="send_mail">
+                            <div class="o_setting_left_pane">
+                                <field name="s_int_send_mail"/>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="s_int_send_mail" string="Envoyer un mail"/>
+                                <div class="text-muted">
+                                    Envoi d'un mail à chaque membre de l'équipe lors de la création du ticket s'il n'a pas été assigné
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+             </xpath>
+        </field>
+    </record>
+</odoo>

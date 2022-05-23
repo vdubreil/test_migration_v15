@@ -1,16 +1,17 @@
 <odoo>
-      <template id="safar_language_selector_on_top" inherit_id="website.template_header_default" name="safar_language_on_top">
-            <xpath expr="//div[@id='top_menu_collapse']/t" position="inside">
-                  <t t-set="flags" t-value="True"/>
-                  <t id="header_language_selector_call" t-call="portal.language_selector">
-                      <t t-set="_div_classes" t-value="(_div_classes or '') + 'dropdown'"/>
-                  </t>
-            </xpath>
-      </template>
+    <template id="safar_portal_show_lang_top" inherit_id="portal.frontend_layout" name="Show Lang Top">
+        <xpath expr="//ul[@id='top_menu']" position="inside">
+            <li class="nav-item divider" groups="base.group_public"/>
+            <li><t t-call="website.language_selector"/></li>
+        </xpath>
+    </template>
 
-      <template id="safar_portal_language_selector" inherit_id="portal.language_selector" name="safar_language_selector">
-            <xpath expr="//t[1]/div[1]/button[1]" position="attributes">
-               <attribute name="style">margin-top: 10px; margin-left: 10px</attribute>
-            </xpath>
-      </template>
+    <template id="safar_website_language_selector" inherit_id="website.language_selector" name="safar_language_selector">
+        <xpath expr="//t[1]/ul[1]/li[1]/div[1]" position="attributes">
+            <attribute name="class">dropdown</attribute>
+        </xpath>
+        <xpath expr="//t[1]/ul[1]/li[1]/div[1]/button[1]" position="attributes">
+            <attribute name="style">padding: 8px 8px 8px 8px; margin-left: 10px</attribute>
+        </xpath>
+    </template>
 </odoo>

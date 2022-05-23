@@ -2,6 +2,31 @@
 <odoo>
     <!-- Inherit quotation report (from module sale) -->
     <template id="Safar_report_purchaseorder" inherit_id="purchase.report_purchaseorder_document">
+
+        <!-- on ajoute juste le n° de la commande ...-->
+        <xpath expr="//t[1]/t[1]/div[1]/h2[1]" position="before">
+            <h2><span t-field="o.name"/></h2>
+        </xpath>
+        <!-- ...et on supprime le texte situé devant le n° de la commande sur les 4 lignes d'origines-->
+        <xpath expr="//t[1]/t[1]/div[1]/h2[2]" position="replace"/>
+        <xpath expr="//t[1]/t[1]/div[1]/h2[2]" position="replace"/>
+        <xpath expr="//t[1]/t[1]/div[1]/h2[2]" position="replace"/>
+        <xpath expr="//t[1]/t[1]/div[1]/h2[2]" position="replace"/>
+
+        <!--On modifie la date de commande pour ne plus afficher l'heure-->
+        <xpath expr="//t[1]/t[1]/div[1]/div[2]/div[3]/p[1]" position="attributes">
+            <attribute name="t-options-widget">"date"</attribute>
+        </xpath>
+
+        <!--On ajoute la date plannifiée dans l'entête-->
+        <xpath expr="//t[1]/t[1]/div[1]/div[2]/div[3]" position="after">
+            <div t-if="o.date_planned" class="col-3 bm-2">
+                <strong>Date planifiée:</strong>
+                <p t-field="o.date_planned" t-options="{'widget':'date'}" class="m-0"/>
+            </div>
+        </xpath>
+
+        <!--On ajout le code article en colonne 1-->
         <xpath expr="//th[@name='th_description']" position="before">
             <th name="th_cd_article"><strong>Article</strong></th>
         </xpath>
@@ -10,5 +35,14 @@
                 <span t-field="line.product_id.default_code"/>
             </td>
         </xpath>
+
+        <!--On enlève la colonne des taxes-->
+        <xpath expr="//th[@name='th_taxes']" position="replace"/>
+        <xpath expr="//td[@name='td_taxes']" position="replace"/>
+
+        <!--On enlève la colonne des dates-->
+        <xpath expr="//thead[1]/tr[1]/th[3]" position="replace"/>
+        <xpath expr="//tbody[1]/t[2]/tr[1]/t[1]/td[3]" position="replace"/>
+
     </template>
 </odoo>

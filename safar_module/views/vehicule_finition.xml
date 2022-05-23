@@ -43,7 +43,7 @@
     </record>
 
     <record model="ir.actions.act_window" id="s_finition_action">
-        <field name="name">Finition</field>
+        <field name="name">Finitions</field>
         <field name="res_model">s_vehicule_finition</field>
         <field name="view_mode">tree,form</field>
     </record>

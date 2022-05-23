@@ -34,7 +34,7 @@
     </record>
 
     <record model="ir.actions.act_window" id="famille_client_action">
-        <field name="name">FamilleClient</field>
+        <field name="name">Familles de Client</field>
         <field name="res_model">s_famille_client</field>
         <field name="view_mode">tree,form</field>
     </record>

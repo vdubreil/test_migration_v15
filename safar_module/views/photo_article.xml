@@ -38,7 +38,7 @@
     </record>
 
     <record model="ir.actions.act_window" id="photo_article_action">
-        <field name="name">PhotosArticle</field>
+        <field name="name">Photos Article</field>
         <field name="res_model">s_photo_article</field>
         <field name="view_mode">tree,form</field>
     </record>

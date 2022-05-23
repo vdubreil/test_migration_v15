@@ -155,13 +155,16 @@
                 </div>
             </xpath>
 
-            <xpath expr="//page/field[@name='order_line']/form[1]/group[1]/group[1]/field[@name='product_id']" position="after">
-<!--                <button name="safar_pricelist_item_action" string="Recherche par ref client" class="oe_edit_only"-->
-<!--                        type="action"/>-->
-<!--                <button name="open_search_item_pricelist_view" string="REcherche par ref client" type="object" class="btn-primary"/>-->
-                <field name="s_ref_client" string="Réf. article pour le client" readonly="False"/>
-
+            <!--Champ de recherche pour chercher un article sur la ref client ou autre valeur-->
+            <xpath expr="//page/field[@name='order_line']/form[1]/group[1]/group[1]/field[@name='product_id']" position="before">
+                <field name="s_search_article" string="Recherche par réf. client" placeholder="Saisir une valeur puis tabulation" attrs="{'invisible': [('parent.state', '=', 'sale')]}"/>
             </xpath>
+            <!--Champ de rappel de la ref client-->
+            <xpath expr="//page/field[@name='order_line']/form[1]/group[1]/group[1]/field[@name='product_id']" position="after">
+                <field name="s_ref_client" string="Réf. article pour le client" readonly="False"/>
+            </xpath>
+
+
             <!--On déplace le champ Lead Time (customer_lead)
             <xpath expr="//page/field[@name='order_line']/form[1]/group[1]/group[1]/div[1]/field[@name='customer_lead']" position="replace"></xpath>-->
             <!--et on le positionne après le champ discount (invisible) + le champ ligne de commande &ndash;&gt;-->

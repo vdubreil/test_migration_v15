@@ -41,7 +41,7 @@
     </record>
 
     <record model="ir.actions.act_window" id="s_generation_action">
-        <field name="name">Generation</field>
+        <field name="name">Generations</field>
         <field name="res_model">s_vehicule_generation</field>
         <field name="view_mode">tree,form</field>
     </record>

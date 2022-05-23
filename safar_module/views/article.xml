@@ -146,6 +146,17 @@
       <xpath expr="//field[@name='barcode']" position="after">
           <field name="s_gabarit_materiau" invisible="1" string="Gabarit / Matériau" widget="radio"/>
       </xpath>
+      <!--Mantis 1279 - Annuler réservation-->
+        <!--on place le bouton dans l'onglet inventaire-->
+        <xpath expr="//group[@name='group_lots_and_weight']" position="after">
+             <group name="group_cancel_reservation" string="Annulation" attrs="{'invisible': [('type', 'not in', ['product', 'consu'])]}">
+                 <button name="cancel_reservation_product_product"
+                    string="Annuler les réservations de ce produit dans tous les BL"
+                    type="object"
+                    class="btn-secondary"
+                    confirm="Attention, vous allez annuler toutes les réservations de ce produit dans tous les BL. Confirmez-vous cette annulation?"/>
+             </group>
+        </xpath>
       <page name="inventory" position="after">
         <page name="" string="Matériau" attrs="{'invisible': [('s_gabarit_materiau','!=','mat'),('s_gabarit_materiau','!=','fil')]}">
           <group name="">

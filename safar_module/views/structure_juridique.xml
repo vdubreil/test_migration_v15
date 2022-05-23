@@ -32,7 +32,7 @@
     </record>
 
     <record model="ir.actions.act_window" id="structure_juridique_action">
-        <field name="name">StructureJuridique</field>
+        <field name="name">Structures Juridiques</field>
         <field name="res_model">s_structure_juridique</field>
         <field name="view_mode">tree,form</field>
     </record>

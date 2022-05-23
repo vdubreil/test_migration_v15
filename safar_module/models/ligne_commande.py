@@ -30,6 +30,7 @@ class LigneCommande(models.Model):
     s_commentaire_production = fields.Text()
     s_abl = fields.Selection(selection=[('oui', 'Oui'), ('non', 'Non')])
     s_edi_data = fields.Text(string="Données EDI")
+    s_search_article = fields.Char(store='False')
 
     # @api.depends('product_template_id.s_tab_references_client', 'order_partner_id')
     # def _compute_ref_client(self):
@@ -48,6 +49,81 @@ class LigneCommande(models.Model):
     #             description = record.name + '\n' + record.s_configuration
     #
     #         record.s_description_complete = description
+
+    @api.onchange('s_search_article')
+    def search_article(self):
+        if self.s_search_article:
+            list_item_found = self.env['product.pricelist.item'].search([('pricelist_id', '=',  self.order_id.pricelist_id.id),
+                                                                         ('s_ref_prdt_client', '=', self.s_search_article)], limit=1)
+            if list_item_found:
+                self.product_id = list_item_found.product_id
+                self.s_search_article = None
+            else:
+                self.product_id = None
+        else:
+            self.product_id = None
+
+    @api.onchange('product_id')
+    def verif_prdt_ds_liste_prix(self):
+        verif_lp = False
+        lp_name = ""
+        if self.product_id.id:
+            if self.order_id.pricelist_id:
+                if self.order_id.pricelist_id.id != 1:  # différent de la liste de prix public
+                    lp = self.env['product.pricelist.item'].search(
+                        [('pricelist_id', '=', self.order_id.pricelist_id.id), ('product_id', '=', self.product_id.id)],
+                        limit=1)
+                    verif_lp = True
+                    lp_name = self.order_id.pricelist_id.name
+            else:
+                if self.order_id.partner_id:
+                    if self.order_id.partner_id.parent_id:
+                        partner = self.order_id.partner_id.parent_id
+                        if self.order_id.partner_id.parent_id.s_id_client_facture:
+                            partner = self.order_id.partner_id.parent_id.s_id_client_facture
+                        else:
+                            partner = self.order_id.partner_id.parent_id
+                    else:
+                        if self.order_id.partner_id.s_id_client_facture:
+                            partner = self.order_id.partner_id.s_id_client_facture
+                        else:
+                            partner = partner = self.order_id.partner_id
+
+                    if partner:
+                        if partner.property_product_pricelist:
+                            if partner.property_product_pricelist.id != 1:  # différent de la liste de prix public
+                                lp = self.env['product.pricelist.item'].search(
+                                    [('pricelist_id', '=', partner.property_product_pricelist.id),
+                                     ('product_id', '=', self.product_id.id)], limit=1)
+                                verif_lp = True
+                                lp_name = partner.property_product_pricelist.name
+            if verif_lp:
+                if len(lp) == 0:
+                    return {'warning': {
+                        'title': 'Attention',
+                        'message': (f"Cet article ne fait pas partie de la liste de prix {lp_name} !"),
+                    }}
+
+    @api.depends('product_id.display_name')
+    def _compute_name_short(self):
+        """ Compute a short name for this sale order line, to be used on the website where we don't have much space.
+            To keep it short, instead of using the first line of the description, we take the product name without the internal reference.
+        """
+        for record in self:
+            if record.product_id.product_tmpl_id.with_context(display_default_code=False).s_lib_ecommerce:
+                record.name_short = record.product_id.product_tmpl_id.with_context(
+                    display_default_code=False).s_lib_ecommerce
+            else:
+                record.name_short = record.product_id.with_context(display_default_code=False).display_name
+
+    def write(self, values):
+        if self.order_id.website_id:
+            if self.product_id.product_tmpl_id.s_lib_ecommerce:
+                values['name'] = self.product_id.product_tmpl_id.s_lib_ecommerce
+            elif self.product_template_id.s_lib_ecommerce:
+                values['name'] = self.product_template_id.s_lib_ecommerce
+
+        return super(LigneCommande, self).write(values)
 
     """Colle la config passée en paramètre dans le champ"""
     @api.onchange('s_configuration')

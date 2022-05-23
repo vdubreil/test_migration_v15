@@ -20,6 +20,26 @@ class ProductProduct(models.Model):
     s_broderie_nm_fichier_pp = fields.Char()
     s_abl_pp = fields.Selection(selection=[('oui', 'Oui'), ('non', 'Non')])
 
+    def cancel_reservation_product_product(self):
+        # pour chaque ligne de mvt du produit concerné par la ligne de mvt en cours, quelque soit le BL
+        # ayant une qté réservée <> 0
+        # et une qté faite = 0
+        list_line = self.env['stock.move.line'].search(['&', '&',
+                                                        ('product_id', '=', self.id),
+                                                        ('product_uom_qty', '!=', 0),
+                                                        ('qty_done', '=', 0)])
+
+        for line in list_line:
+            # on cherche la ligne correspondante dans l'onglet opérations
+            move = self.env['stock.move'].search([('id', '=', line.move_id.id)])
+            if move:
+                # on retire de la qté réservée de l'opération, la qté réservée de l'opération détaillée
+                move.reserved_availability = move.reserved_availability - line.product_uom_qty
+                # on repasse le statut de Assigned à Confirmed
+                move.state = 'confirmed'
+                # on supprime la ligne de l'opération détaillée
+                line.unlink()
+
     # @api.depends_context('pricelist', 'partner', 'quantity', 'uom', 'date', 'no_variant_attributes_price_extra')
     # def _compute_product_ref_clt(self):
     #     prices = {}

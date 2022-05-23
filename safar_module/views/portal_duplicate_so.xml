@@ -26,9 +26,6 @@
                         <main class="modal-body">
                             <textarea rows="1" type="text" name="ref_order_client" placeholder="Votre référence" class="form-control"/>
                             <br/><hr/>
-                            <p>Vous souhaitez repasser exactement la commande N° <span t-field="sale_order.name"/></p>
-                            <button type="submit" t-att-id="sale_order.id" class="btn btn-danger"><i class="fa fa-times"></i> Passer la même commande</button>
-                            <br/><hr/>
                             <p>Vous souhaitez apporter quelques modifications à la commande N° <span t-field="sale_order.name"/></p>
                             <textarea rows="4" name="duplicate_message" placeholder="Dans ce cas, merci d'indiquer ici les modifications à apporter à la commande d'origine..." class="form-control"/><br/>
                             <button type="submit" t-att-id="sale_order.id" class="btn btn-danger"><i class="fa fa-times"></i> Demander un devis</button>
@@ -40,19 +37,6 @@
                 </div>
             </div>
 
-            <!-- status messages -->
-            <div t-if="message == 'duplicate_ok'" class="alert alert-success alert-dismissable d-print-none" role="status">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">&amp;times;</button>
-                <strong>Merci!</strong><br/>
-                <t>Votre commande a bien été enregistrée.</t>
-                <t>Veuillez en trouver le détail ci-dessous pour validation.</t>
-            </div>
-            <div t-if="message == 'duplicate_ko'" class="alert alert-warning alert-dismissable d-print-none" role="status">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">&amp;times;</button>
-                <strong>Désolé!</strong><br/>
-                <t>Votre commande n'a pas pu être enregistrée.</t>
-                <t>Refaites un nouvel essai ou contactez le service client.</t>
-            </div>
             <div t-if="message == 'quotation_ok'" class="alert alert-success alert-dismissable d-print-none" role="status">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">&amp;times;</button>
                 <strong>Merci!</strong><br/>

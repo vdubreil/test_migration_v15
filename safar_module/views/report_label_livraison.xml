@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+         <template id="report_label_livraison">
+             <t t-call="web.html_container">
+                <div style="font-size: 20px; font-weight: 900">
+                    <u style="font-style: italic">EXPEDITEUR</u>
+                    <br/>
+                    <br/>
+                    <span t-field="res_company.name"/>
+                    <br/><span t-field="res_company.street"/>
+                    <br/>
+                    <t t-if="res_company.street2">
+                         <span t-field="res_company.street2"/>
+                     </t>
+                    <br/><span t-field="res_company.zip"/> <span t-field="res_company.city"/>
+
+
+                    <br/><br/>
+                    <u style="font-style: italic">DESTINATAIRE</u>
+                    <br/>
+                    <br/><span t-field="picking.partner_id.name"/>
+                    <br/><span t-field="picking.partner_id.street"/>
+                    <br/>
+                     <t t-if="picking.partner_id.street2">
+                         <span t-field="picking.partner_id.street2"/>
+                     </t>
+                    <br/><span t-field="picking.partner_id.zip"/> <span t-field="picking.partner_id.city"/>
+                    <br/><span t-field="picking.partner_id.country_id.name"/>
+                    <br/><br/>
+                    Contact : <span t-field="picking.sale_id.s_interlocuteur.name"/>
+                    <br/>
+                    <t t-if="picking.partner_id.phone">
+                        Tel : <span t-field="picking.partner_id.phone"/>
+                    </t>
+                </div>
+          </t>
+        </template>
+
+        <template id="report_label_livraison_init">
+            <t t-call="web.basic_layout">
+                <div class="page">
+                    <t t-foreach="docs" t-as="picking">
+                        <t t-call="safar_module.report_label_livraison">
+                            <t t-set="picking" t-value="picking"/>
+                        </t>
+                    </t>
+                </div>
+            </t>
+        </template>
+    </data>
+</odoo>

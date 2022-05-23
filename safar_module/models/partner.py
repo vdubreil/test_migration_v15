@@ -25,9 +25,9 @@ class Partner(models.Model):
     s_dt_optin = fields.Date(string="Dt Optin")
     s_dt_optout = fields.Date(string="Dt Optout")
     s_status_client = fields.Selection(selection=[('actif', 'Actif'), ('inactif', 'Inactif')], string="Statut Client")
-    s_gescom_ca_2018 = fields.Float(string="CA 2018")
-    s_gescom_ca_2019 = fields.Float(string="CA 2019")
-    s_mt_encours_client = fields.Float(string="Encours Client")
+    s_gescom_ca_2018 = fields.Float(currency_field="s_currency_id", string="CA 2018")
+    s_gescom_ca_2019 = fields.Float(currency_field="s_currency_id", string="CA 2019")
+    s_mt_encours_client = fields.Float(currency_field="s_currency_id", string="Encours Client")
     s_code_concession = fields.Char(string='Code concession')
     s_nature_client = fields.Selection(selection=[('agent', 'Agent'), ('direct', 'Direct'), ('groupe', 'Groupe'),
                                                   ('importateur', 'Importateur'), ('reseau', 'Réseau')],
@@ -63,6 +63,9 @@ class Partner(models.Model):
     s_tab_inv_an = fields.One2many('s_partner_inv_an', 's_partner_id')
     s_tab_inv_clt = fields.One2many('s_partner_inv_clt', 's_partner_id')
     s_tab_inv_art = fields.One2many('s_partner_inv_art', 's_partner_id')
+
+    s_phone_num = fields.Char(compute="compute_phone_integer", store="True")
+    s_mobile_num = fields.Char(compute="compute_mobile_integer", store="True")
 
     @api.model
     def create(self, values):
@@ -176,3 +179,21 @@ class Partner(models.Model):
         self.env['sale.order'].calcul_top_cde(self.id)
         self.env['account.move'].calcul_ca_facture_clt(self.id)
         self.env['account.move'].calcul_ca_facture_art(self.id)
+
+    @api.depends('phone')
+    def compute_phone_integer(self):
+        phone_number = ""
+        for record in self:
+            if record.phone:
+                phone_number = "".join([elt for elt in record.phone if elt.isdigit()])
+
+            record.update({'s_phone_num': phone_number})
+
+    @api.depends('mobile')
+    def compute_mobile_integer(self):
+        mobile_number = ""
+        for record in self:
+            if record.mobile:
+                mobile_number = "".join([elt for elt in record.mobile if elt.isdigit()])
+
+            record.update({'s_mobile_num': mobile_number})

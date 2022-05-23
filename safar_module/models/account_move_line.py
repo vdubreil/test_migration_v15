@@ -20,7 +20,7 @@ class AccountMoveLine(models.Model):
     s_code_concession = fields.Char()
 
     s_ref_client = fields.Char() #compute='_compute_ref_client_account', store="True", string="Réf. article pour le client")
-    s_tri_invoice_line = fields.Integer(compute="_compute_order_invoice_line_by_idcde", store="false")
+    s_tri_invoice_line = fields.Integer(compute="_compute_order_invoice_line_by_idcde", strore="false")
 
     # Permet de mettre un entier selon qu'il y a présence d'un id de cde ou pas pour le tri lors de l'impression
     # le but étant de distinguer les lignes ajoutées dans la facture (section, note) afin qu'elles apparaissent en premier dans les lignes

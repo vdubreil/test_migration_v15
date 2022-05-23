@@ -183,9 +183,9 @@ class AccountMove(models.Model):
     def calcul_ca_facture(self):
         if self:
             if self.state in ('posted'):
-                self.calcul_ca_facture_an()
-                self.calcul_ca_facture_clt()
-                self.calcul_ca_facture_art()
+                record.calcul_ca_facture_an()
+                record.calcul_ca_facture_clt()
+                record.calcul_ca_facture_art()
 
     # Calculer les CA facturés par an
     def calcul_ca_facture_an(self, idclt=False):

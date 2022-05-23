@@ -34,18 +34,23 @@
                         <tr class="active">
                             <th><span class="d-none d-md-inline">Référence</span></th>
                             <th><span class="d-none d-md-inline">Description</span></th>
+                            <th style="text-align: right"><span class="d-none d-md-inline">Qté minimum</span></th>
                             <th style="text-align: right"><span class="d-none d-md-inline">Prix</span></th>
                         </tr>
                     </thead>
 
-                    <t t-foreach="myprices" t-as="myprice">
-                        <tr>
-                            <td><span t-field="myprice.s_ref_prdt_client"/></td>
-                            <td t-if="myprice.s_lib_prdt_client"><span t-field="myprice.s_lib_prdt_client"/></td>
-                            <td t-if="not myprice.s_lib_prdt_client"><span t-field="myprice.product_tmpl_id.name"/></td>
-                            <td style="text-align: right"><span t-field="myprice.fixed_price"/></td>
-                        </tr>
-                    </t>
+                    <tbody>
+                        <t t-foreach="myprices" t-as="myprice">
+                            <tr>
+                                <td><span t-field="myprice.s_ref_prdt_client"/></td>
+                                <td t-if="myprice.s_lib_prdt_client" style="white-space: normal"><span t-field="myprice.s_lib_prdt_client"/></td>
+                                <td t-if="not myprice.s_lib_prdt_client" style="white-space: normal"><span t-field="myprice.product_tmpl_id.name"/></td>
+                                <td style="text-align: right" t-if="myprice.min_quantity != 0"><span t-field="myprice.min_quantity"/></td>
+                                <td style="text-align: right" t-if="myprice.min_quantity == 0"> </td>
+                                <td style="text-align: right"><span t-field="myprice.fixed_price"/></td>
+                            </tr>
+                        </t>
+                    </tbody>
                 </t>
             </t>
         </t>

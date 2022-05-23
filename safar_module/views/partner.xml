@@ -9,11 +9,11 @@
                 <attribute name="attrs"></attribute>
             </xpath>
             <!--idem pour le type de partner-->
-            <xpath expr="//form[1]/sheet[1]/group[1]/group[1]/span[1]/field[@name='type']" position="attributes">
+            <xpath expr="//form[1]/sheet[1]/group[1]/group[1]/field[@name='type']" position="attributes">
                 <attribute name="attrs"></attribute>
                 <attribute name="groups"></attribute>
             </xpath>
-            <xpath expr="//form[1]/sheet[1]/group[1]/group[1]/span[1]/field[@name='type']" position="before">
+            <xpath expr="//form[1]/sheet[1]/group[1]/group[1]/field[@name='type']" position="before">
                 <field name="s_num_client" string="N° Client SAFAR" attrs="{'readonly': [('id', '!=', False)], 'invisible': [('id', '=', False)]}"/>
             </xpath>
             <xpath expr="//field[@name='vat']" position="after">
@@ -264,5 +264,15 @@
     <!-- pour afficher le mode MAP dans la vue client depuis CRM/Ventes/Clients-->
     <record id="base.action_partner_form" model="ir.actions.act_window">
         <field name="view_mode">kanban,tree,form,activity,map</field>
+    </record>
+
+    <!-- Mantis 1248 - pour enlever le bouton Rendez-vous dans la fiche du partner-->
+    <record model="ir.ui.view" id="s_view_partners_form_crm1">
+        <field name="name">Safar.view_partners_form_crm1</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="crm.view_partners_form_crm1"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='schedule_meeting']" position="replace"/>
+        </field>
     </record>
 </odoo>
