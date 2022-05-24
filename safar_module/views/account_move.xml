@@ -41,7 +41,7 @@
             </xpath>
             <!--Ajout du champ code concession-->
             <xpath expr="//page/field[@name='invoice_line_ids']/tree[1]/field[@name='name']" position="after">
-                <field name="s_code_concession" string="Concession" attrs="{'column_invisible': [('parent.type','!=','out_invoice')]}"/>
+                <field name="s_code_concession" string="Concession" attrs="{'column_invisible': [('parent.move_type','!=','out_invoice')]}"/>
             </xpath>
 
             <!--On empêche la création ou modification via les options du Many2one-->
