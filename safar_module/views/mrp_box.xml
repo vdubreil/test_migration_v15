@@ -30,7 +30,7 @@
                     <group>
                       <group string="Transfert vers un autre Box">
                         <div class="o_row">
-                          <label for="" name="s_id_box_transfert">Transférer ces OF dans le Box</label>
+                          <label for="s_id_box_transfert">Transférer ces OF dans le Box</label>
                           <field name="s_id_box_transfert" domain="[('id', '!=', id)]"/>
                           <button name="call_move_of" string="Transférer" confirm="Confirmez-vous le transfert des OF vers le Box sélectionné ?" type="object" class="btn-primary" attrs="{'invisible': ['|', ('s_tab_of','=', False), ('s_id_box_transfert','=', False)]}"/>
                         </div>
