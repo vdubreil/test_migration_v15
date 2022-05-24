@@ -11,7 +11,7 @@
 
     'author': "JJB Conseil",
     'website': "",
-
+    'license': 'LGPL-3',
     # Categories can be used to filter modules in modules listing
     # Check https://github.com/odoo/odoo/blob/13.0/odoo/addons/base/data/ir_module_category_data.xml
     # for the full list
@@ -21,7 +21,7 @@
     # any module necessary for this one to work correctly
     'depends': ['account', 'base', 'contacts', 'product', 'sale', 'mrp', 'stock', 'sale_stock', 'web', 'purchase',
                 'hr', 'quality_control', 'mrp_workorder', 'delivery', 'account_batch_payment', 'website', 'documents', 'crm',
-                'website_sale', 'helpdesk', 'account_accountant'],
+                'website_sale', 'helpdesk'],
 
     # 'qweb': [
     #     'static/src/xml/copy_paste_btn.xml',
