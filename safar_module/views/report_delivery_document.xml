@@ -5,18 +5,19 @@
         <!--On remplace l'adresse de livraison pour enlever le téléphone et le
 replacer plus bas-->
 
-        <xpath expr="/t[1]/t[1]/t[1]/t[3]/t[1]/div[1]" position="after">
-          <div t-esc="partner" t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": True}'/>
+        <xpath expr="//div[@name='partner_header']/div[1]" position="after">
+<!--          <div t-esc="partner" t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": True}'/>-->
+          <div t-field="partner.self" t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": True}'/>
         </xpath>
-        <xpath expr="/t[1]/t[1]/t[1]/t[3]/t[1]/div[1]" position="replace"/>
+        <xpath expr="//div[@name='partner_header']/div[1]" position="replace"/>
 
         <!--On augmente la taille de l'adresse de livraison pour une meilleure lisibilité-->
-        <xpath expr="/t[1]/t[1]/t[1]/t[3]/t[1]/div[1]" position="attributes">
+        <xpath expr="//div[@name='partner_header']/div[1]" position="attributes">
             <attribute name="style">font-size: 17px</attribute>
         </xpath>
 
         <!--On ajoute, sous l'adresse, le téléphone du parent s'il n'y a pas de téléphone dans l'adresse de livraison-->
-        <xpath expr="/t[1]/t[1]/t[1]/t[3]/t[1]/div[1]" position="after">
+        <xpath expr="//div[@name='partner_header']/div[1]" position="after">
             <br/>
             <t t-if="not o.partner_id.phone">
               <span t-field="o.partner_id.parent_id.phone" style="font-size: 17px"/>
