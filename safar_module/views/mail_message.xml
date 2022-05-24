@@ -5,7 +5,7 @@
     <record model="ir.ui.view" id="s_view_message_form">
         <field name="name">Safar.s_view_message_form</field>
         <field name="model">mail.message</field>
-        <field name="inherit_id" ref="mail.view_message_form"/>
+        <field name="inherit_id" ref="mail.mail_message_view_form"/>
         <field name="arch" type="xml">
             <xpath expr="//field[@name='is_internal']" position="after">
                 <field name="mail_activity_type_id" invisible="1"/>
