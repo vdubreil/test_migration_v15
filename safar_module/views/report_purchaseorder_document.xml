@@ -11,7 +11,6 @@
         <xpath expr="//t[1]/t[1]/div[1]/h2[2]" position="replace"/>
         <xpath expr="//t[1]/t[1]/div[1]/h2[2]" position="replace"/>
         <xpath expr="//t[1]/t[1]/div[1]/h2[2]" position="replace"/>
-        <xpath expr="//t[1]/t[1]/div[1]/h2[2]" position="replace"/>
 
         <!--On modifie la date de commande pour ne plus afficher l'heure-->
         <xpath expr="//t[1]/t[1]/div[1]/div[2]/div[3]/p[1]" position="attributes">
