@@ -2,7 +2,7 @@
 <odoo>
     <template id="Safar_report_invoice" inherit_id="account.report_invoice_document">
         <!--On ajoute sous l'adresse du facturé, le N° de client SAFAR-->
-        <xpath expr="/t[1]/t[1]/t[2]/div[1]" position="after">
+        <xpath expr="/t[1]/t[1]/t[3]/div[1]" position="after">
             <br/>
             <span>Code facturé : </span>
             <t t-if="o.partner_id.s_num_client>0" id="div_num_client_safar" class="row mt32">
