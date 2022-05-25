@@ -3,7 +3,7 @@
     <!-- Inherit quotation report (from module sale) -->
     <template id="Safar_report_quotation" inherit_id="sale.report_saleorder_document">
 
-        <xpath expr="/t[1]/t[1]/t[2]/p[1]" position="before">
+        <xpath expr="/t[1]/t[1]/t[3]/p[1]" position="before">
             <br></br>
         </xpath>
 
@@ -12,7 +12,7 @@
             <br/>Client facturé : <span class="m-0" t-field="doc.partner_invoice_id.s_num_client"/>
         </xpath>
 
-        <xpath expr="/t[1]/t[1]/t[2]/p[1]" position="after">
+        <xpath expr="/t[1]/t[1]/t[3]/p[1]" position="after">
             <!--On ajoute sous l'adresse du client, le N° de client SAFAR-->
             <span>Code client : </span>
             <t t-if="doc.partner_id.s_num_client > 0 " id="div_num_client_safar" class="row mt32">
