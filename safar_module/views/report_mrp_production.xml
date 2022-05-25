@@ -7,12 +7,12 @@
 <!--          <br/>-->
 <!--          <strong>OF Gesprod : </strong><span t-field="o.s_of_gesprod"></span>-->
 <!--        </xpath>-->
-        <xpath expr="/t[1]/t[1]/t[1]/t[1]/div[1]/div[2]/div[2]/span[1]/img[1]" position="after">
+        <xpath expr="/t[1]/t[1]/t[1]/t[1]/div[1]/div[2]/div[2]/span[1]/div[1]" position="after">
             <t t-if="o.s_of_gesprod" t-set="codebarre" t-value="o.s_of_gesprod.split('-')"/>
             <img t-if="o.s_of_gesprod" t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s ' % ('Code128', codebarre[0], 600, 100)" style="width:350px;height:60px"/>
             <img t-if="not o.s_of_gesprod" t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s ' % ('Code128', o.name, 600, 100)" style="width:350px;height:60px"/>
         </xpath>
-        <xpath expr="/t[1]/t[1]/t[1]/t[1]/div[1]/div[2]/div[2]/span[1]/img[1]" position="replace"/>
+        <xpath expr="/t[1]/t[1]/t[1]/t[1]/div[1]/div[2]/div[2]/span[1]/div[1]" position="replace"/>
 
 
         <!--On réduit les marges des différentes zones dans l'entête-->
