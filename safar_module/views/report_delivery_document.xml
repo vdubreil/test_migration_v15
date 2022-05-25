@@ -116,21 +116,43 @@ replacer plus bas-->
           <xpath expr="/t[1]/t[1]/t[1]/div[1]/table[2]/thead[1]/tr[1]/th[1]" position="before">
               <th><strong>Ref Article</strong></th>
           </xpath>
-          <xpath expr="/t[1]/t[1]/t[1]/div[1]/table[2]/tbody[1]/tr[1]/td[1]" position="before">
-             <td>
-                <span t-field="move_line.move_id.sale_line_id.s_ref_client"/>
-              </td>
-          </xpath>
+<!--          <xpath expr="/t[1]/t[1]/t[1]/div[1]/table[2]/tbody[1]/tr[1]/td[1]" position="before">-->
+<!--             <td>-->
+<!--                <span t-field="move_line.move_id.sale_line_id.s_ref_client"/>-->
+<!--              </td>-->
+<!--          </xpath>-->
           <!--On ajoute la 1ère ligne de la configuation sous le nom de l'article dans la table2-->
-          <xpath expr="/t[1]/t[1]/t[1]/div[1]/table[2]/tbody[1]/tr[1]/td[2]/span[1]" position="after">
-              <span t-field="move_line.product_id"/><br/>
-              <t t-if="move_line.move_id.sale_line_id.s_configuration">
+<!--          <xpath expr="/t[1]/t[1]/t[1]/div[1]/table[2]/tbody[1]/tr[1]/td[2]/span[1]" position="after">-->
+<!--              <span t-field="move_line.product_id"/><br/>-->
+<!--              <t t-if="move_line.move_id.sale_line_id.s_configuration">-->
+<!--                <t t-set='conf' t-value="move_line.move_id.sale_line_id.s_configuration.split('\n')"/>-->
+<!--                <t t-esc='conf[0]'/>-->
+<!--              </t>-->
+<!--          </xpath>-->
+<!--         <xpath expr="/t[1]/t[1]/t[1]/div[1]/table[2]/tbody[1]/tr[1]/td[2]/span[1]" position="replace"/>-->
+          <!--On supprime l'indication unité après la qté-->
+<!--          <xpath expr="/t[1]/t[1]/t[1]/div[1]/table[2]/tbody[1]/tr[1]/td[5]/span[2]" position="replace"/>-->
+    </template>
+
+    <!--Rapport appelé par le report_delivery_document comprenant l'affichage des colonnes-->
+    <template id="Safar_stock_report_delivery_aggregated_move_lines" inherit_id="stock.stock_report_delivery_aggregated_move_lines">
+        <!--On ajoute la colonne ref client-->
+        <xpath expr="/t[1]/tr[1]/td[1]" position="before">
+            <td>
+                <span t-field="move_line.move_id.sale_line_id.s_ref_client"/>
+            </td>
+        </xpath>
+        <!--On ajoute la 1ère ligne de la configuation sous le nom de l'article dans la table2-->
+        <xpath expr="/t[1]/tr[1]/td[2]/span[1]" position="after">
+            <span t-field="move_line.product_id"/><br/>
+            <t t-if="move_line.move_id.sale_line_id.s_configuration">
                 <t t-set='conf' t-value="move_line.move_id.sale_line_id.s_configuration.split('\n')"/>
                 <t t-esc='conf[0]'/>
-              </t>
-          </xpath>
-         <xpath expr="/t[1]/t[1]/t[1]/div[1]/table[2]/tbody[1]/tr[1]/td[2]/span[1]" position="replace"/>
-          <!--On supprime l'indication unité après la qté-->
-          <xpath expr="/t[1]/t[1]/t[1]/div[1]/table[2]/tbody[1]/tr[1]/td[5]/span[2]" position="replace"/>
+            </t>
+        </xpath>
+        <xpath expr="/t[1]/tr[1]/td[2]/span[1]" position="replace"/>
+        <!--On supprime l'indication unité après la qté-->
+        <xpath expr="/t[1]/tr[1]/td[4]/t[1]/span[2]" position="replace"/>
+
     </template>
 </odoo>
