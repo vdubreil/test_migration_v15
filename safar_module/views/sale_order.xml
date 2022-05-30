@@ -9,7 +9,7 @@
                 <field name="s_jr_facturation_related" string="Jr Facturation"/>
                 <field name="s_code_concession_related" string="Cd Concession"/>
             </xpath>
-            <xpath expr="//field[@name='activity_exception_decoration']" position="after">
+            <xpath expr="//field[@name='currency_id']" position="after">
                 <field name="global_channel_id" optional="hide"/>
             </xpath>
         </field>
