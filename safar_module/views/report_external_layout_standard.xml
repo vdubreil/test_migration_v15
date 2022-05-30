@@ -79,7 +79,7 @@
            <!--Suppression du pied de page par défaut contenant téléphone, mail, ...-->
            <xpath expr="/t[1]/div[3]/div[2]/ul" position="replace"/>
            <!--Suppression d'une ligne financial infos qui prend le champ company.report_footer-->
-           <xpath expr="//div[@name='financial_infos']" position="replace"/>
+<!--           <xpath expr="//div[@name='financial_infos']" position="replace"/>-->
 
        </template>
 </odoo>
