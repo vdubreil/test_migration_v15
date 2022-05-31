@@ -4,7 +4,7 @@
         <field name="name">Safar.website_sale.product_price</field>
         <field name="inherit_id" ref="website_sale.product_price"/>
         <field name="arch" type="xml">
-            <xpath expr="//t[1]/div[1]/h4[1]/b[1]" position="after">
+            <xpath expr="//t[1]/div[1]/h3[1]/span[1]" position="after">
                 HT
                 <span class="text-muted" style="font-size: 14px">
                   (<span class="text-muted" style="white-space: nowrap;" t-esc="combination_info['price']*1.2" t-options="{'widget': 'monetary', 'display_currency': website.currency_id}"/> TTC)
