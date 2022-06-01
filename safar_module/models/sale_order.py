@@ -32,20 +32,20 @@ class SaleOrder(models.Model):
     )
     """Fin du code acheté"""
 
-    @api.model
-    def create(self, values):
-        record = super(SaleOrder, self).create(values)
-        if record:
-            if not record.global_channel_id:
-                # On force le global channel à la valeur par défaut paramétrée dans la fiche sté
-                channel_par_defaut = False
-                company = self.env['res.company'].search([('id', '=', record.company_id.id)])
-                if company:
-                    if company.s_global_channel_par_defaut:
-                        channel_par_defaut = company.s_global_channel_par_defaut.id
-                        record['global_channel_id'] = channel_par_defaut
-
-        return record
+    # @api.model
+    # def create(self, values):
+    #     record = super(SaleOrder, self).create(values)
+    #     if record:
+    #         if not record.global_channel_id:
+    #             # On force le global channel à la valeur par défaut paramétrée dans la fiche sté
+    #             channel_par_defaut = False
+    #             company = self.env['res.company'].search([('id', '=', record.company_id.id)])
+    #             if company:
+    #                 if company.s_global_channel_par_defaut:
+    #                     channel_par_defaut = company.s_global_channel_par_defaut.id
+    #                     record['global_channel_id'] = channel_par_defaut
+    #
+    #     return record
 
 
 
