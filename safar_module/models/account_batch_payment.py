@@ -6,6 +6,7 @@ import logging
 logger = logging.getLogger(__name__)
 LCR_DATE_FORMAT = "%d%m%y"
 
+
 try:
     from unidecode import unidecode
 except ImportError:
